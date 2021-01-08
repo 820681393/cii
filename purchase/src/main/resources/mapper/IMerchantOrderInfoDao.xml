@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.purchase.dao.IMerchantOrderInfoDao">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.purchase.model.MerchantOrderInfo">
+         <id column="id" property="id" />
+         <result column="order_number" property="orderNumber" />
+         <result column="miid" property="miid" />
+         <result column="mi_admin_id" property="miAdminId" />
+         <result column="mi_address_id" property="miAddressId" />
+         <result column="bill_type" property="billType" />
+         <result column="state" property="state" />
+         <result column="sum_price" property="sumPrice" />
+         <result column="sum_number" property="sumNumber" />
+         <result column="create_time" property="createTime" />
+         <result column="success_time" property="successTime" />
+        <result column="receive_name" property="receiveName" />
+        <result column="receive_tel" property="receiveTel" />
+        <result column="receive_address" property="receiveAddress" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_number, miid,mi_admin_id,mi_address_id,bill_type,state,sum_price,sum_number,create_time,success_time,receive_name,receive_tel,receive_address
+    </sql>
+
+    <select id="sumTodayOrderNumber" resultType="java.lang.Integer">
+        SELECT COUNT(1) AS total_number FROM merchant_order_info WHERE TO_DAYS(create_time) = TO_DAYS(NOW())
+    </select>
+
+    <select id="orderInfoListByMonthAndMiid" resultType="com.purchase.model.MerchantOrderInfo">
+        SELECT
+          *
+        FROM
+          (SELECT
+            o.*,
+            MONTH(create_time) AS ctm,
+            (MONTH(NOW()) - 1) AS nm
+          FROM
+            merchant_order_info o
+          WHERE MONTH(create_time) >= (MONTH(NOW()) - 1)
+          AND miid = #{miid}
+          ORDER BY create_time DESC) AS myn
+    </select>
+
+</mapper>

@@ -1,0 +1,8 @@
+.fixed-table{
+    table-layout: fixed;
+    word-break: break-all;
+    font-size: 13px;
+}
+.fixed-table th{
+    white-space:nowrap;
+}

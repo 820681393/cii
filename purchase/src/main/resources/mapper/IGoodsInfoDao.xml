@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.purchase.dao.IGoodsInfoDao">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.purchase.model.GoodsInfo">
+         <id column="id" property="id" />
+         <result column="code" property="code" />
+         <result column="ch_name" property="chName" />
+         <result column="en_name" property="enName" />
+         <result column="img_url" property="imgUrl" />
+         <result column="goid" property="goid" />
+         <result column="gtid" property="gtid" />
+         <result column="create_time" property="createTime" />
+        <result column="price" property="price" />
+        <result column="price_se" property="priceSe" />
+        <result column="unit_type" property="unitType" />
+        <result column="siid" property="siid" />
+        <result column="unit_pr" property="uiidPr" />
+        <result column="unit_pe" property="uiidPe" />
+        <result column="unit_pr_val" property="unitPrVal" />
+        <result column="unit_pe_val" property="unitPeVal" />
+        <result column="percentage" property="percentage" />
+        <result column="extra_costs" property="extraCosts" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, ch_name, en_name, img_url, goid, gtid, create_time,price,price_se,unit_type,siid,unit_pr,unit_pe,unit_pr_val,unit_pe_val,percentage,extra_costs
+    </sql>
+
+    <select id="sumGoodsInfo" parameterType="com.purchase.model.GoodsInfo" resultType="com.purchase.vo.SumGoodsInfoVO" >
+    SELECT
+      (SELECT
+        NAME
+      FROM
+        <if test="goodsType==1">
+            goods_one_type
+        </if>
+        <if test="goodsType==2">
+            goods_tow_type
+        </if>
+      WHERE id =
+        <if test="goodsType==1">
+            og.goid
+        </if>
+        <if test="goodsType==2">
+            og.gtid
+        </if>
+      ) AS NAME,
+      og.*
+    FROM
+      (SELECT
+        <if test="goodsType==1">
+            goid,
+        </if>
+        <if test="goodsType==2">
+            gtid,
+        </if>
+        SUM(real_number) AS total_number,
+        real_unit,
+        SUM(real_total_price) AS total_price
+        <if test="isSumYm==true">
+            ,ym_date
+        </if>
+      FROM
+        (SELECT
+          o.*,
+          g.goid,
+          g.gtid
+        FROM
+          (SELECT
+            giid,
+            real_number,
+            real_unit,
+            real_total_price,
+            DATE_FORMAT(create_time, '%Y-%m') AS ym_date
+          FROM
+            order_info_detail
+          WHERE state = 'Y'
+            <if test="goodsInfo.createTimeStart!=null">
+                and create_time >= #{goodsInfo.createTimeStart}
+            </if>
+            <if test="goodsInfo.createTimeEnd!=null">
+                and create_time &lt;= #{goodsInfo.createTimeEnd}
+            </if>
+          ) o
+          LEFT JOIN goods_info g
+            ON o.giid = g.id) AS og
+      GROUP BY goid,real_unit
+        <if test="isSumYm==true">
+            ,ym_date
+        </if>
+        ) AS og
+    </select>
+
+    <select id="goodsPriceTrend" parameterType="com.purchase.model.GoodsInfo" resultType="com.purchase.vo.GoodsPriceTrendVO" >
+    SELECT NAME,ct_ymd,real_price FROM (
+    SELECT
+      myn.giid,
+      (SELECT
+        ch_name
+      FROM
+        goods_info
+      WHERE id = myn.giid) AS NAME,
+      real_price,
+      ct_ym,
+      ct_ymd
+    FROM
+      (SELECT
+        oid.*,
+        DATE_FORMAT(create_time, '%Y-%m') AS ct_ym,
+        DATE_FORMAT(create_time, '%Y-%m-%d') AS ct_ymd
+      FROM
+        order_info_detail oid
+      WHERE state = 'Y'
+        <if test="goodsInfo.createTimeStart!=null">
+            and create_time >= #{goodsInfo.createTimeStart}
+        </if>
+        <if test="goodsInfo.createTimeEnd!=null">
+            and create_time &lt;= #{goodsInfo.createTimeEnd}
+        </if>
+        <if test="goodsIds!=null">
+            and giid in
+            <foreach item="item" collection="goodsIds" separator="," open="(" close=")" index="">
+                #{item, jdbcType=NUMERIC}
+            </foreach>
+        </if>
+      ) AS myn
+    ORDER BY ct_ym,ct_ymd,giid) myn GROUP BY NAME,ct_ymd
+    </select>
+    <select id="supplierPriceTrend" parameterType="com.purchase.model.GoodsInfo" resultType="com.purchase.vo.SupplierPriceTrendVO" >
+    SELECT
+      (SELECT
+        NAME
+      FROM
+        supplier_info
+      WHERE id = od.siid) AS supplierName,
+      od.*
+    FROM
+      (SELECT
+        siid,
+        SUM(real_total_price) AS totalPrice,
+        ct_ymd
+      FROM
+        (SELECT
+          o.*,
+          DATE_FORMAT(create_time, '%Y-%m') AS ct_ym,
+          DATE_FORMAT(create_time, '%Y-%m-%d') AS ct_ymd
+        FROM
+          order_info_detail o
+        WHERE state = 'Y') AS od
+      GROUP BY siid,
+        ct_ymd) od
+    </select>
+</mapper>

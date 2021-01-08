@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.purchase.dao.IOrderInfoDao">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.purchase.model.OrderInfo">
+        <id column="id" property="id" />
+         <result column="order_number" property="orderNumber" />
+         <result column="ciid" property="ciid" />
+         <result column="xuid" property="xuid" />
+         <result column="suid" property="suid" />
+         <result column="huid" property="huid" />
+         <result column="state" property="state" />
+         <result column="sum_price" property="sumPrice" />
+         <result column="success_time" property="successTime" />
+         <result column="create_time" property="createTime" />
+         <result column="sum_number" property="sumNumber" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_number, ciid, xuid, suid, huid, state, sum_price, success_time, create_time,sum_number
+    </sql>
+
+    <select id="sumTodayOrderNumber" resultType="java.lang.Integer">
+        SELECT COUNT(1) AS total_number FROM order_info WHERE TO_DAYS(create_time) = TO_DAYS(NOW())
+    </select>
+
+    <select id="orderInfoListByMonth" resultType="com.purchase.model.OrderInfo">
+        SELECT
+          *
+        FROM
+          (SELECT
+            o.*,
+            MONTH(create_time) AS ctm,
+            (MONTH(NOW()) - 1) AS nm
+          FROM
+            order_info o
+          WHERE MONTH(create_time) >= (MONTH(NOW()) - 1)
+          ORDER BY create_time DESC) AS myn
+    </select>
+</mapper>

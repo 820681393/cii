@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.purchase.dao.IGoodsToSupplierDao">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.purchase.model.GoodsToSupplier">
+        <id column="id" property="id" />
+         <result column="giid" property="giid" />
+         <result column="siid" property="siid" />
+         <result column="price" property="price" />
+         <result column="unit" property="unit" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, giid, siid, price, unit
+    </sql>
+
+</mapper>
