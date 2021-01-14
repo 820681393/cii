@@ -62,7 +62,7 @@ public class OrderInfoDetail extends PageInfoModel implements Serializable  {
     private BigDecimal totalPrice;
 
     @ApiModelProperty(value = "数量")
-    private BigDecimal number;
+    private Integer number;
 
     @ApiModelProperty(value = "实采总价")
     private BigDecimal realTotalPrice;

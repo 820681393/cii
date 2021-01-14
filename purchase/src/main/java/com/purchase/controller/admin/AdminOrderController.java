@@ -513,7 +513,7 @@ public class AdminOrderController {
     @ApiOperation(value = "合并采购单")
     public ResponseResult orderInfoMerge(Model model,HttpServletRequest request,String orderIds,Integer ciid,Integer suid){
         BigDecimal sumPrice = new BigDecimal(0);
-        BigDecimal sumNumber = new BigDecimal(0);
+        Integer sumNumber = 0;
         OrderInfo addOrderInfo = new OrderInfo();
         addOrderInfo.setSumPrice(sumPrice);
         addOrderInfo.setSumNumber(sumNumber);
@@ -527,9 +527,9 @@ public class AdminOrderController {
             List<OrderInfoDetail> orderInfoDetailList = iOrderInfoDetailService.findByOiid(id);
             for (OrderInfoDetail orderInfoDetail:orderInfoDetailList){
                 BigDecimal totalPrice = orderInfoDetail.getTotalPrice();
-                BigDecimal number = orderInfoDetail.getNumber();
+                Integer number = orderInfoDetail.getNumber();
                 addOrderInfo.setSumPrice(addOrderInfo.getSumPrice().add(totalPrice));
-                addOrderInfo.setSumNumber(addOrderInfo.getSumNumber().add(number));
+                addOrderInfo.setSumNumber(addOrderInfo.getSumNumber()+(number));
                 allOrderInfoDetails.add(orderInfoDetail);
             }
             CarInfo carInfo = new CarInfo();
@@ -588,11 +588,11 @@ public class AdminOrderController {
                         &&orderInfoDetail.getSiid().equals(addOrderDetail.getSiid())
                             &&orderInfoDetail.getUnitType().equals(addOrderDetail.getUnitType())){
                         addFlag = false;
-                        BigDecimal goodsNumber = orderInfoDetail.getNumber();
+                        Integer goodsNumber = orderInfoDetail.getNumber();
                         BigDecimal totalPrice = orderInfoDetail.getTotalPrice();
-                        BigDecimal addGoodsNumber = addOrderDetail.getNumber();
+                        Integer addGoodsNumber = addOrderDetail.getNumber();
                         BigDecimal addTotalPrice = addOrderDetail.getTotalPrice();
-                        addOrderDetail.setNumber(addGoodsNumber.add(goodsNumber));
+                        addOrderDetail.setNumber(addGoodsNumber+(goodsNumber));
                         addOrderDetail.setTotalPrice(addTotalPrice.add(totalPrice));
                         break;
                     }

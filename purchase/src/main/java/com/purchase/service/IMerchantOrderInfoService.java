@@ -5,6 +5,9 @@ import com.github.pagehelper.PageInfo;
 import com.purchase.model.MerchantOrderInfo;
 import com.purchase.model.OrderInfo;
 import org.springframework.data.repository.Repository;
+
+import java.util.List;
+
 /**
  * <p>
  * 商户订单信息 服务类
@@ -17,4 +20,5 @@ public interface IMerchantOrderInfoService extends IService<MerchantOrderInfo>,R
 
     PageInfo<MerchantOrderInfo> selectMerchantOrderInfoPageInfo(MerchantOrderInfo merchantOrderInfo);
 
+    List<MerchantOrderInfo> findByMdiid(Integer mdiid);
 }

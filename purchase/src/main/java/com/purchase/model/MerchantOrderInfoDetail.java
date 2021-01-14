@@ -39,50 +39,26 @@ public class MerchantOrderInfoDetail extends PageInfoModel implements Serializab
     @ApiModelProperty(value = "商品信息id")
     private Integer giid;
 
-    @ApiModelProperty(value = "供应商ID")
-    private Integer siid;
-
-    @ApiModelProperty(value = "参考价格(主)")
+    @ApiModelProperty(value = "商品批发价")
     private BigDecimal price;
 
-    @ApiModelProperty(value = "参考价格(辅)")
-    private BigDecimal priceSe;
-
-    @ApiModelProperty(value = "单位(主)")
+    @ApiModelProperty(value = "商品单位")
     private String unit;
-
-    @ApiModelProperty(value = "单位(辅)")
-    private String unitSe;
 
     @ApiModelProperty(value = "单位类型：1-主，2-辅")
     private Integer unitType;
 
-    @ApiModelProperty(value = "实采总价")
-    private BigDecimal realTotalPrice;
-
-    @ApiModelProperty(value = "实采单位")
-    private String realUnit;
-
-    @ApiModelProperty(value = "实采数量")
-    private BigDecimal realNumber;
-
-    @ApiModelProperty(value = "实采单价")
-    private BigDecimal realPrice;
-
-    @ApiModelProperty(value = "状态：Y-完成，N-未完成")
-    private String state;
-
-    @ApiModelProperty(value = "备注")
-    private String remark;
-
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
-    @ApiModelProperty(value = "总价")
+    @ApiModelProperty(value = "商品总价")
     private BigDecimal totalPrice;
 
-    @ApiModelProperty(value = "数量")
-    private BigDecimal number;
+    @ApiModelProperty(value = "商品数量")
+    private Integer number;
+
+    @ApiModelProperty(value = "售价(批发价*利润率+额外费用)")
+    private BigDecimal sellPrice;
 
     @ApiModelProperty(value = "商品利润分成率")
     private BigDecimal percentage;
@@ -90,16 +66,19 @@ public class MerchantOrderInfoDetail extends PageInfoModel implements Serializab
     @ApiModelProperty(value = "商品额外费用")
     private BigDecimal extraCosts;
 
-    @ApiModelProperty(value = "零售价")
-    private BigDecimal retailPrice;
+    @ApiModelProperty(value = "商品名称")
+    private String goodsName;
 
-    @ApiModelProperty(value = "供应商名称")
-    @TableField(exist = false)
-    private String supplierName;
+    @ApiModelProperty(value = "状态：1正常配送 2临采配送 3次日配送 4取消配送")
+    private Integer state;
 
-    @ApiModelProperty(value = "供应商地址")
     @TableField(exist = false)
-    private String supplierAddress;
+    @ApiModelProperty(value = "商品库存")
+    private Integer goodsStock;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "合并的订单详细id")
+    private String mergeOrderDetailId;
 
     @TableField(exist = false)
     private GoodsInfo goodsInfo;

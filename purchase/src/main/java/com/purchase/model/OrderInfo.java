@@ -70,7 +70,7 @@ public class OrderInfo extends PageInfoModel implements Serializable  {
     private Date createTime;
 
     @ApiModelProperty(value = "订单商品总数")
-    private BigDecimal sumNumber;
+    private Integer sumNumber;
 
     @ApiModelProperty(value = "下单员名称")
     @TableField(exist = false)

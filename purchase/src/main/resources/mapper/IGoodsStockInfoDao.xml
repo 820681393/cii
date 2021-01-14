@@ -15,4 +15,8 @@
         id, order_number, stock_number, type, create_time, total_price
     </sql>
 
+    <select id="sumTodayGoodsStockInfoNumber" resultType="java.lang.Integer">
+        SELECT COUNT(1) AS total_number FROM goods_stock_info WHERE TO_DAYS(create_time) = TO_DAYS(NOW())
+    </select>
+
 </mapper>

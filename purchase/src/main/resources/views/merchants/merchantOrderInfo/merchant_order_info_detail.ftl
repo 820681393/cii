@@ -41,18 +41,18 @@
                                                                     </#if>
                                                                     <span class="red price_unit">
                                                                         <span class="show-price">
-                                                                            <#if myn.unitType==1>
+<#--                                                                            <#if myn.unitType==1>-->
                                                                                     ${myn.price}
-                                                                                <#else >
-                                                                                    ${myn.priceSe}
-                                                                            </#if>
+<#--                                                                                <#else >-->
+<#--                                                                                    ${myn.priceSe}-->
+<#--                                                                            </#if>-->
                                                                         </span>P/
                                                                         <span class="show-unit">
-                                                                            <#if myn.unitType==1>
+<#--                                                                            <#if myn.unitType==1>-->
                                                                                 ${myn.unit}
-                                                                            <#else >
-                                                                                ${myn.unitSe}
-                                                                            </#if>
+<#--                                                                            <#else >-->
+<#--                                                                                ${myn.unitSe}-->
+<#--                                                                            </#if>-->
                                                                         </span>
 <#--                                                                        <select class="unit-sel">-->
 <#--                                                                            <option value="1" <#if myn.unitType==1>selected="selected"</#if>>主</option>-->

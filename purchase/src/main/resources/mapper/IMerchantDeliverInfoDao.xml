@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.purchase.dao.IMerchantDeliverInfoDao">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.purchase.model.MerchantDeliverInfo">
+        <id column="id" property="id" />
+         <result column="order_number" property="orderNumber" />
+         <result column="miid" property="miid" />
+         <result column="merchant_name" property="merchantName" />
+         <result column="miaid" property="miaid" />
+         <result column="state" property="state" />
+         <result column="sum_price" property="sumPrice" />
+         <result column="deliver_price_diff" property="deliverPriceDiff" />
+         <result column="real_deliver_price" property="realDeliverPrice" />
+         <result column="settle_type" property="settleType" />
+         <result column="image" property="image" />
+         <result column="print_aiid" property="printAiid" />
+         <result column="settle_aiid" property="settleAiid" />
+         <result column="settle_balance" property="settleBalance" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_number, miid, merchant_name, miaid, state, sum_price, deliver_price_diff, real_deliver_price, settle_type, image, print_aiid, settle_aiid, settle_balance
+    </sql>
+
+    <select id="sumTodayOrderNumber" resultType="java.lang.Integer">
+        SELECT COUNT(1) AS total_number FROM merchant_deliver_info WHERE TO_DAYS(create_time) = TO_DAYS(NOW())
+    </select>
+
+</mapper>

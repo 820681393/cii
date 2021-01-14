@@ -78,14 +78,14 @@
                         <a class="collapsed" data-toggle="collapse" data-parent="#accordion-styled" href="#accordion-styled-group3">
                             订单列表
                         </a>
-                        <a class="collapsed" id="mergeBtn" flag="false" onclick="mergeOrderInfo()" style="float: right;margin-left: 15px;">
-                            <i class="icon-merge"></i>
-                            <span>合并到采购单</span>
-                        </a>
-                        <a class="collapsed" id="mergeConfirm" onclick="mergeOrderInfoConfirm()" style="float: right;display: none">
-                            <i class="icon-checkmark4"></i>
-                            确定合并
-                        </a>
+<#--                        <a class="collapsed" id="mergeBtn" flag="false" onclick="mergeOrderInfo()" style="float: right;margin-left: 15px;">-->
+<#--                            <i class="icon-merge"></i>-->
+<#--                            <span>合并到采购单</span>-->
+<#--                        </a>-->
+<#--                        <a class="collapsed" id="mergeConfirm" onclick="mergeOrderInfoConfirm()" style="float: right;display: none">-->
+<#--                            <i class="icon-checkmark4"></i>-->
+<#--                            确定合并-->
+<#--                        </a>-->
                     </h6>
                 </div>
                 <div class="panel panel-flat">
@@ -94,10 +94,11 @@
                                 <thead>
                                 <tr class="border-bottom-danger">
                                     <th>订单号</th>
+                                    <th>商品数量</th>
                                     <th>商品总价</th>
 <#--                                    <th>商户名称</th>-->
 <#--                                    <th>商户负责人</th>-->
-                                    <th>结算方式</th>
+<#--                                    <th>结算方式</th>-->
 <#--                                    <th>收货人姓名</th>-->
 <#--                                    <th>收货人手机号</th>-->
 <#--                                    <th>收货人地址</th>-->
@@ -124,17 +125,18 @@
                                     <#list pageInfos.list as myn>
                                         <tr class="border-top-primary" state="${myn.state}" id="${myn.id}" ciid="${myn.ciid!}" carName="${myn.carName!}">
                                             <td>${myn.orderNumber!}</td>
+                                            <td>${myn.sumNumber!}</td>
                                             <td>${myn.sumPrice!}</td>
 <#--                                            <td>${myn.miName!}</td>-->
 <#--                                            <td>${myn.entrustName!}</td>-->
-                                            <td>
-                                                <#if myn.billType==1>
-                                                    现金
-                                                </#if>
-                                                <#if myn.billType==2>
-                                                    周结算
-                                                </#if>
-                                            </td>
+<#--                                            <td>-->
+<#--                                                <#if myn.billType==1>-->
+<#--                                                    现金-->
+<#--                                                </#if>-->
+<#--                                                <#if myn.billType==2>-->
+<#--                                                    周结算-->
+<#--                                                </#if>-->
+<#--                                            </td>-->
 <#--                                            <td>${myn.receiveName!}</td>-->
 <#--                                            <td>${myn.receiveTel!}</td>-->
 <#--                                            <td>${myn.receiveAddress!}</td>-->

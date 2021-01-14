@@ -7,6 +7,8 @@ import com.purchase.service.IMerchantOrderInfoService;
 import com.mybaits.jpa.service.MyBatisJapService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 商户订单信息 服务实现类
@@ -22,4 +24,11 @@ public class MerchantOrderInfoServiceImpl extends MyBatisJapService<IMerchantOrd
     public PageInfo<MerchantOrderInfo> selectMerchantOrderInfoPageInfo(MerchantOrderInfo merchantOrderInfo) {
         return jpaPageInfo(merchantOrderInfo,merchantOrderInfo.getPageNum(),merchantOrderInfo.getPageSize());
     }
+
+    @Override
+    public List<MerchantOrderInfo> findByMdiid(Integer mdiid) {
+        return jpaFindByMany(mdiid);
+    }
+
+
 }

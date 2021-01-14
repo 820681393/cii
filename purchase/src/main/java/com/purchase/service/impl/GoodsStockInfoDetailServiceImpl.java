@@ -6,6 +6,8 @@ import com.purchase.service.IGoodsStockInfoDetailService;
 import com.mybaits.jpa.service.MyBatisJapService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 商品库存详细记录 服务实现类
@@ -17,4 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class GoodsStockInfoDetailServiceImpl extends MyBatisJapService<IGoodsStockInfoDetailDao, GoodsStockInfoDetail> implements IGoodsStockInfoDetailService {
 
+    @Override
+    public List<GoodsStockInfoDetail> findByGsiid(Integer gsiid) {
+        return jpaFindByMany(gsiid);
+    }
 }

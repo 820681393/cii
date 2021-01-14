@@ -103,6 +103,12 @@
                                             </label>
                                         </div>
                                         <div class="col-xs-12" style="margin-top: 20px;">
+                                            <label class="col-xs-2">安全库存</label>
+                                            <label class="col-xs-10">
+                                                <input type="number" name="safeStock" class="form-control" placeholder="安全库存">
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-2">应用单位</label>
                                             <label class="col-xs-10">
                                                 <select name="unitType" class="form-control">

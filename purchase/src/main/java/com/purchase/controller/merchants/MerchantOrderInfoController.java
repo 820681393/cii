@@ -3,6 +3,7 @@ package com.purchase.controller.merchants;
 
 import com.github.pagehelper.PageInfo;
 import com.purchase.config.SystemConfig;
+import com.purchase.dao.IMerchantDeliverInfoDao;
 import com.purchase.dao.IMerchantOrderInfoDao;
 import com.purchase.model.*;
 import com.purchase.service.*;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,6 +94,12 @@ public class MerchantOrderInfoController {
     @Autowired
     IMerchantUserInfoService iMerchantUserInfoService;
 
+    @Autowired
+    IMerchantDeliverInfoService iMerchantDeliverInfoService;
+
+    @Autowired
+    IMerchantDeliverInfoDao iMerchantDeliverInfoDao;
+
     @RequestMapping(value = "/orderInfo/submitIndex")
     @ApiOperation(value = "商户系统下单")
     public String submitIndex(Model model, HttpServletRequest request){
@@ -111,6 +119,14 @@ public class MerchantOrderInfoController {
         List<NoticeInfo> noticeInfoList = iNoticeInfoService.list();
         List<MerchantUserInfo> merchantUserInfoList = iMerchantUserInfoService.findByAiid(userAdmin.getId());
         for (GoodsInfo goodsInfo: goodsInfoList) {
+            if(goodsInfo.getTradePrice()==null){
+                BigDecimal price = new BigDecimal(0);
+                goodsInfo.setTradePrice(price);
+            }
+            if(goodsInfo.getTradePriceSe()==null){
+                BigDecimal price = new BigDecimal(0);
+                goodsInfo.setTradePriceSe(price);
+            }
             for (SupplierInfo supplierInfo: supplierInfoList) {
                 if(goodsInfo.getSiid()!=null){
                     if(goodsInfo.getSiid().equals(supplierInfo.getId())){
@@ -168,11 +184,11 @@ public class MerchantOrderInfoController {
     @RequestMapping(value = "/orderInfo/submitIndexIng")
     @ResponseBody
     @ApiOperation(value = "商户系统提交下单")
-    public ResponseResult submitIndexIng(Model model, HttpServletRequest request, MerchantOrderInfo merchantOrderInfo){
+    public ResponseResult submitIndexIng(Model model, HttpServletRequest request, MerchantOrderInfo merchantOrderInfo) throws ParseException {
         AdminInfo userAdmin = (AdminInfo) request.getSession().getAttribute("userAdmin");
         MerchantInfo merchantInfo = iMerchantInfoService.findByAiid(userAdmin.getId());
         merchantOrderInfo.setMiid(merchantInfo.getId());
-        merchantOrderInfo.setMiName(userAdmin.getNikeName());
+        merchantOrderInfo.setMerchantName(userAdmin.getNikeName());
         merchantOrderInfo.setState(1);
         Integer todayOrderNumber = iMerchantOrderInfoDao.sumTodayOrderNumber();//获取当天总订单数
         Date d = new Date();
@@ -189,6 +205,43 @@ public class MerchantOrderInfoController {
 
         String orderNumber = dateNowStr+"C"+no;//订单编号
         merchantOrderInfo.setOrderNumber(orderNumber);
+
+        Integer miid = merchantOrderInfo.getMiid();
+        Integer miaid = merchantOrderInfo.getMiaid();
+
+        //根据商户ID、商户地址查询商户今日是否生成过配送单，将当前商户订单标记到配送单
+        Date date = MyDateUtil.getTodayDate();
+        MerchantDeliverInfo merchantDeliverInfo = iMerchantDeliverInfoService.findByMiidAndMiaidAndCreateTimeGreaterThan(miid,miaid,date);
+        if(merchantDeliverInfo==null){
+            Integer dnumber = iMerchantDeliverInfoDao.sumTodayOrderNumber()+1;
+            String dno = dnumber+"";
+            if(dnumber<10){
+                dno = "00"+dnumber;
+            }else if(dnumber>=10&&dnumber<100){
+                dno = "0"+dnumber;
+            }
+
+            String dorderNumber = dateNowStr+"D"+dno;//订单编号
+            MerchantDeliverInfo addMerchantDeliverInfo = new MerchantDeliverInfo();
+            addMerchantDeliverInfo.setOrderNumber(dorderNumber);
+            addMerchantDeliverInfo.setMiid(merchantOrderInfo.getMiid());
+            addMerchantDeliverInfo.setMerchantName(merchantOrderInfo.getMerchantName());
+            addMerchantDeliverInfo.setMiaid(merchantOrderInfo.getMiaid());
+            addMerchantDeliverInfo.setState(1);
+            addMerchantDeliverInfo.setSumPrice(merchantOrderInfo.getSumPrice());
+            addMerchantDeliverInfo.setSettleType(merchantInfo.getSettlementMethod());
+            if(iMerchantDeliverInfoService.save(addMerchantDeliverInfo)){
+                merchantOrderInfo.setMdiid(addMerchantDeliverInfo.getId());
+            };
+        }else{
+            BigDecimal sumPrice = merchantDeliverInfo.getSumPrice();
+            MerchantDeliverInfo updateMerchantDeliverInfo = new MerchantDeliverInfo();
+            updateMerchantDeliverInfo.setId(merchantDeliverInfo.getId());
+            updateMerchantDeliverInfo.setSumPrice(sumPrice.add(merchantOrderInfo.getSumPrice()));
+            iMerchantDeliverInfoService.updateById(updateMerchantDeliverInfo);
+
+            merchantOrderInfo.setMdiid(merchantDeliverInfo.getId());
+        }
         if(iMerchantOrderInfoService.save(merchantOrderInfo)){
             return ResponseResult.successResult(merchantOrderInfo,request);
         }
@@ -209,8 +262,9 @@ public class MerchantOrderInfoController {
         //循环查出商品的利润率、额外费用，算出商品零售价
         for(MerchantOrderInfoDetail merchantOrderInfoDetail : merchantOrderInfoDetails){
             for(GoodsInfo goodsInfo : goodsInfoList){
+                merchantOrderInfoDetail.setGoodsName(goodsInfo.getChName()+"<br/>"+goodsInfo.getEnName());
                 if(merchantOrderInfoDetail.getGiid()==goodsInfo.getId()){
-                    merchantOrderInfoDetail.setRetailPrice(merchantOrderInfoDetail.getTotalPrice());//默认零售价为商品总价
+                    merchantOrderInfoDetail.setSellPrice(merchantOrderInfoDetail.getTotalPrice());//默认零售价为商品总价
 
                     if(goodsInfo.getPercentage()!=null){
                         merchantOrderInfoDetail.setPercentage(goodsInfo.getPercentage());
@@ -219,15 +273,15 @@ public class MerchantOrderInfoController {
                         merchantOrderInfoDetail.setExtraCosts(goodsInfo.getExtraCosts());
                     }
                     if(merchantOrderInfoDetail.getPercentage()!=null){
-                        BigDecimal retailPrice = merchantOrderInfoDetail.getRetailPrice();
+                        BigDecimal retailPrice = merchantOrderInfoDetail.getSellPrice();
                         BigDecimal percentage = merchantOrderInfoDetail.getPercentage();
                         BigDecimal otherFee = retailPrice.multiply(percentage);
-                        merchantOrderInfoDetail.setRetailPrice(retailPrice.add(otherFee));
+                        merchantOrderInfoDetail.setSellPrice(retailPrice.add(otherFee));
                     }
                     if(merchantOrderInfoDetail.getExtraCosts()!=null){
-                        BigDecimal retailPrice = merchantOrderInfoDetail.getRetailPrice();
+                        BigDecimal retailPrice = merchantOrderInfoDetail.getSellPrice();
                         BigDecimal extraCosts = merchantOrderInfoDetail.getExtraCosts();
-                        merchantOrderInfoDetail.setRetailPrice(retailPrice.add(extraCosts));
+                        merchantOrderInfoDetail.setSellPrice(retailPrice.add(extraCosts));
                     }
                     break;
                 }
@@ -250,25 +304,6 @@ public class MerchantOrderInfoController {
         PageInfo<MerchantOrderInfo> pageInfos = iMerchantOrderInfoService.selectMerchantOrderInfoPageInfo(orderInfo);
         AdminInfo userAdmin = (AdminInfo) request.getSession().getAttribute("userAdmin");
         List<AdminInfo> adminInfoList=iAdminInfoService.list();
-        for (MerchantOrderInfo oInfo:pageInfos.getList()) {
-            for (AdminInfo adminInfo:adminInfoList) {
-                if(oInfo.getSuid()!=null) {
-                    if (oInfo.getSuid().equals(adminInfo.getId())) {
-                        oInfo.setSuName(adminInfo.getNikeName());
-                    }
-                }
-                if(oInfo.getHuid()!=null){
-                    if(oInfo.getHuid().equals(adminInfo.getId())){
-                        oInfo.setHuName(adminInfo.getNikeName());
-                    }
-                }
-                if(oInfo.getJuid()!=null){
-                    if(oInfo.getJuid().equals(adminInfo.getId())){
-                        oInfo.setJuName(adminInfo.getNikeName());
-                    }
-                }
-            }
-        }
 
         model.addAttribute("pageInfos",pageInfos);
         model.addAttribute("aliyunOos",systemConfig.getAliyunOos());
@@ -292,25 +327,6 @@ public class MerchantOrderInfoController {
         }
         PageInfo<MerchantOrderInfo> pageInfos = iMerchantOrderInfoService.selectMerchantOrderInfoPageInfo(orderInfo);
         List<AdminInfo> adminInfoList=iAdminInfoService.list();
-        for (MerchantOrderInfo oInfo:pageInfos.getList()) {
-            for (AdminInfo adminInfo:adminInfoList) {
-                if(oInfo.getSuid()!=null) {
-                    if (oInfo.getSuid().equals(adminInfo.getId())) {
-                        oInfo.setSuName(adminInfo.getNikeName());
-                    }
-                }
-                if(oInfo.getHuid()!=null){
-                    if(oInfo.getHuid().equals(adminInfo.getId())){
-                        oInfo.setHuName(adminInfo.getNikeName());
-                    }
-                }
-                if(oInfo.getJuid()!=null){
-                    if(oInfo.getJuid().equals(adminInfo.getId())){
-                        oInfo.setJuName(adminInfo.getNikeName());
-                    }
-                }
-            }
-        }
 
         model.addAttribute("pageInfos",pageInfos);
         model.addAttribute("aliyunOos",systemConfig.getAliyunOos());
@@ -336,28 +352,6 @@ public class MerchantOrderInfoController {
                 if(orderInfoDetail.getGiid().equals(goodsInfo.getId())){
                     orderInfoDetail.setGoodsInfo(goodsInfo);
                     break;
-                }
-            }
-            for (SupplierInfo supplierInfo: supplierInfoList) {
-                if(supplierInfo.getId().equals(orderInfoDetail.getSiid())){
-                    orderInfoDetail.setSupplierName(supplierInfo.getName());
-                }
-            }
-        }
-        for (AdminInfo adminInfo:adminInfoList) {
-            if(orderInfo.getHuid()!=null) {
-                if (orderInfo.getSuid().equals(adminInfo.getId())) {
-                    orderInfo.setSuName(adminInfo.getNikeName());
-                }
-            }
-            if(orderInfo.getHuid()!=null){
-                if(orderInfo.getHuid().equals(adminInfo.getId())){
-                    orderInfo.setHuName(adminInfo.getNikeName());
-                }
-            }
-            if(orderInfo.getJuid()!=null){
-                if(orderInfo.getJuid().equals(adminInfo.getId())){
-                    orderInfo.setJuName(adminInfo.getNikeName());
                 }
             }
         }
@@ -391,7 +385,6 @@ public class MerchantOrderInfoController {
     public ResponseResult receiptOrderInfo(Model model, HttpServletRequest request, @RequestParam("file") MultipartFile[] file, MerchantOrderInfo orderInfo){
         if(file.length>0){
             AdminInfo userAdmin = (AdminInfo) request.getSession().getAttribute("userAdmin");
-            orderInfo.setHuid(userAdmin.getId());
             orderInfo.setState(4);
             for (MultipartFile f:file) {
                 String imgName = FileUtil.fileVerify(f,".jpg .png .jpeg");
@@ -449,26 +442,23 @@ public class MerchantOrderInfoController {
             MerchantOrderInfo updateMerchantOrderInfo = new MerchantOrderInfo();
             updateMerchantOrderInfo.setId(id);
             updateMerchantOrderInfo.setState(2);
-            updateMerchantOrderInfo.setSuid(userAdmin.getId());
-            updateMerchantOrderInfo.setOiOrderNumber(orderNumber);
+//            updateMerchantOrderInfo.setSuid(userAdmin.getId());
+//            updateMerchantOrderInfo.setOiOrderNumber(orderNumber);
             updateMerchantOrderInfoList.add(updateMerchantOrderInfo);
 
             List<MerchantOrderInfoDetail> orderInfoDetailList = iMerchantOrderInfoDetailService.findByMoiid(id);
             for (MerchantOrderInfoDetail orderInfoDetail:orderInfoDetailList) {
                 BigDecimal totalPrice = orderInfoDetail.getTotalPrice();
-                BigDecimal number = orderInfoDetail.getNumber();
+                Integer number = orderInfoDetail.getNumber();
 
                 updateOrderInfo.setSumPrice(updateOrderInfo.getSumPrice().add(totalPrice));
-                updateOrderInfo.setSumNumber(updateOrderInfo.getSumNumber().add(number));
+                updateOrderInfo.setSumNumber(updateOrderInfo.getSumNumber()+(number));
 
                 OrderInfoDetail addOrderInfoDetail = new OrderInfoDetail();
                 addOrderInfoDetail.setOiid(mergeToOrderInfo.getId());
                 addOrderInfoDetail.setGiid(orderInfoDetail.getGiid());
-                addOrderInfoDetail.setSiid(orderInfoDetail.getSiid());
                 addOrderInfoDetail.setPrice(orderInfoDetail.getPrice());
-                addOrderInfoDetail.setPriceSe(orderInfoDetail.getPriceSe());
                 addOrderInfoDetail.setUnit(orderInfoDetail.getUnit());
-                addOrderInfoDetail.setUnitSe(orderInfoDetail.getUnitSe());
                 addOrderInfoDetail.setUnitType(orderInfoDetail.getUnitType());
                 addOrderInfoDetail.setTotalPrice(orderInfoDetail.getTotalPrice());
                 addOrderInfoDetail.setNumber(orderInfoDetail.getNumber());
@@ -477,14 +467,13 @@ public class MerchantOrderInfoController {
                 //如果采购单里没有对应商品则新增，否则累加数量跟价格
                 for (OrderInfoDetail orderInfoDetail1 : mergeToOrderInfoDetailList) {
                     if (orderInfoDetail.getGiid().equals(orderInfoDetail1.getGiid())
-                            && orderInfoDetail.getSiid().equals(orderInfoDetail1.getSiid())
                             && orderInfoDetail.getUnitType().equals(orderInfoDetail1.getUnitType())) {
                         addFlag = false;
-                        BigDecimal addGoodsNumber = orderInfoDetail1.getNumber();
+                        Integer addGoodsNumber = orderInfoDetail1.getNumber();
                         BigDecimal addTotalPrice = orderInfoDetail1.getTotalPrice();
                         OrderInfoDetail updateOrderInfoDetail = new OrderInfoDetail();
                         updateOrderInfoDetail.setId(orderInfoDetail1.getId());
-                        updateOrderInfoDetail.setNumber(addGoodsNumber.add(number));
+                        updateOrderInfoDetail.setNumber(addGoodsNumber+(number));
                         updateOrderInfoDetail.setTotalPrice(addTotalPrice.add(totalPrice));
                         updateOrderInfoDetailList.add(updateOrderInfoDetail);
                         break;

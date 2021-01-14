@@ -1,5 +1,6 @@
 package com.purchase.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -46,5 +47,21 @@ public class GoodsStockInfo extends PageInfoModel implements Serializable  {
 
     @ApiModelProperty(value = "总价")
     private BigDecimal totalPrice;
+
+    @ApiModelProperty(value = "操作人id")
+    private Integer aiid;
+
+    @ApiModelProperty(value = "类型名称：手动入库，销售出库，手动出库")
+    private String typeName;
+
+    @ApiModelProperty(value = "单据图片")
+    private String image;
+
+    @ApiModelProperty(value = "备注")
+    private String remark;
+
+    @ApiModelProperty(value = "操作人名称")
+    @TableField(exist = false)
+    private String adminName;
 
 }

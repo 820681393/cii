@@ -111,6 +111,9 @@ public class GoodsInfo extends PageInfoModel implements Serializable  {
     @ApiModelProperty(value = "库存(辅)")
     private Integer stockSe;
 
+    @ApiModelProperty(value = "安全库存")
+    private Integer safeStock;
+
     @ApiModelProperty(value = "一级分类名称")
     @TableField(exist = false)
     private String goName;

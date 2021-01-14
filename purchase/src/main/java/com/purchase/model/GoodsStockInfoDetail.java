@@ -46,4 +46,19 @@ public class GoodsStockInfoDetail extends PageInfoModel implements Serializable 
     @ApiModelProperty(value = "商品数量")
     private Integer number;
 
+    @ApiModelProperty(value = "商品操作前数量")
+    private Integer beforeNumber;
+
+    @ApiModelProperty(value = "类型：1 入库 2 出库")
+    private Integer type;
+
+    @ApiModelProperty(value = "商品名称")
+    private String goodsName;
+
+    @ApiModelProperty(value = "单位类型：1主 2辅")
+    private Integer unitType;
+
+    @ApiModelProperty(value = "总价")
+    private BigDecimal totalPrice;
+
 }

@@ -111,6 +111,12 @@
                                             </label>
                                         </div>
                                         <div class="col-xs-12" style="margin-top: 20px;">
+                                            <label class="col-xs-2">安全库存</label>
+                                            <label class="col-xs-10">
+                                                <input type="number" name="safeStock" value="${goodsInfo.safeStock!}" class="form-control" placeholder="安全库存">
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-2">应用单位</label>
                                             <label class="col-xs-10">
                                                 <select name="unitType" class="form-control">
@@ -219,54 +225,54 @@
         if(price&&price>0){
             if(unitPrVal>=unitPeVal){
                 cvPrice = price*unitPrVal;
-                $("#priceSe").val(cvPrice);
+                $("#priceSe").val(Math.round(cvPrice));
             }else{
                 cvPrice = price/unitPeVal;
-                $("#priceSe").val(cvPrice);
+                $("#priceSe").val(Math.round(cvPrice));
             }
         }else if(priceSe&&priceSe>0){
             if(unitPrVal>=unitPeVal){
                 cvPrice = priceSe/unitPrVal;
-                $("#price").val(cvPrice);
+                $("#price").val(Math.round(cvPrice));
             }else{
                 cvPrice = priceSe*unitPeVal;
-                $("#price").val(cvPrice);
+                $("#price").val(Math.round(cvPrice));
             }
         }
 
         if(tradePrice&&tradePrice>0){
             if(unitPrVal>=unitPeVal){
                 cvTradePrice = tradePrice*unitPrVal;
-                $("#tradePriceSe").val(cvTradePrice);
+                $("#tradePriceSe").val(Math.round(cvTradePrice));
             }else{
                 cvTradePrice = tradePrice/unitPeVal;
-                $("#tradePriceSe").val(cvTradePrice);
+                $("#tradePriceSe").val(Math.round(cvTradePrice));
             }
         }else if(tradePriceSe&&tradePriceSe>0){
             if(unitPrVal>=unitPeVal){
                 cvTradePrice = tradePriceSe/unitPrVal;
-                $("#tradePrice").val(cvTradePrice);
+                $("#tradePrice").val(Math.round(cvTradePrice));
             }else{
                 cvTradePrice = tradePriceSe*unitPeVal;
-                $("#tradePrice").val(cvTradePrice);
+                $("#tradePrice").val(Math.round(cvTradePrice));
             }
         }
 
         if(retailPrice&&retailPrice>0){
             if(unitPrVal>=unitPeVal){
                 cvRetailPrice = retailPrice*unitPrVal;
-                $("#retailPriceSe").val(cvRetailPrice);
+                $("#retailPriceSe").val(Math.round(cvRetailPrice));
             }else{
                 cvRetailPrice = retailPrice/unitPeVal;
-                $("#retailPriceSe").val(cvRetailPrice);
+                $("#retailPriceSe").val(Math.round(cvRetailPrice));
             }
         }else if(retailPriceSe&&retailPriceSe>0){
             if(unitPrVal>=unitPeVal){
                 cvRetailPrice = retailPriceSe/unitPrVal;
-                $("#retailPrice").val(cvRetailPrice);
+                $("#retailPrice").val(Math.round(cvRetailPrice));
             }else{
                 cvRetailPrice = retailPriceSe*unitPeVal;
-                $("#retailPrice").val(cvRetailPrice);
+                $("#retailPrice").val(Math.round(cvRetailPrice));
             }
         }
     });
@@ -297,60 +303,60 @@
         if(name=="price"){
             if(unitPrVal>=unitPeVal){
                 cvPrice = price*unitPrVal;
-                $("#priceSe").val(cvPrice);
+                $("#priceSe").val(Math.round(cvPrice));
             }else{
                 cvPrice = price/unitPeVal;
-                $("#priceSe").val(cvPrice);
+                $("#priceSe").val(Math.round(cvPrice));
             }
         }
 
         if(name=="priceSe"){
             if(unitPrVal>=unitPeVal){
                 cvPrice = priceSe/unitPrVal;
-                $("#price").val(cvPrice);
+                $("#price").val(Math.round(cvPrice));
             }else{
                 cvPrice = priceSe*unitPeVal;
-                $("#price").val(cvPrice);
+                $("#price").val(Math.round(cvPrice));
             }
         }
 
         if(name=="tradePrice"){
             if(unitPrVal>=unitPeVal){
                 cvTradePrice = tradePrice*unitPrVal;
-                $("#tradePriceSe").val(cvTradePrice);
+                $("#tradePriceSe").val(Math.round(cvTradePrice));
             }else{
                 cvTradePrice = tradePrice/unitPeVal;
-                $("#tradePriceSe").val(cvTradePrice);
+                $("#tradePriceSe").val(Math.round(cvTradePrice));
             }
         }
 
         if(name=="tradePriceSe"){
             if(unitPrVal>=unitPeVal){
                 cvTradePrice = tradePriceSe/unitPrVal;
-                $("#tradePrice").val(cvTradePrice);
+                $("#tradePrice").val(Math.round(cvTradePrice));
             }else{
                 cvTradePrice = tradePriceSe*unitPeVal;
-                $("#tradePrice").val(cvTradePrice);
+                $("#tradePrice").val(Math.round(cvTradePrice));
             }
         }
 
         if(name=="retailPrice"){
             if(unitPrVal>=unitPeVal){
                 cvRetailPrice = retailPrice*unitPrVal;
-                $("#retailPriceSe").val(cvRetailPrice);
+                $("#retailPriceSe").val(Math.round(cvRetailPrice));
             }else{
                 cvRetailPrice = retailPrice/unitPeVal;
-                $("#retailPriceSe").val(cvRetailPrice);
+                $("#retailPriceSe").val(Math.round(cvRetailPrice));
             }
         }
 
         if(name=="retailPriceSe"){
             if(unitPrVal>=unitPeVal){
                 cvRetailPrice = retailPriceSe/unitPrVal;
-                $("#retailPrice").val(cvRetailPrice);
+                $("#retailPrice").val(Math.round(cvRetailPrice));
             }else{
                 cvRetailPrice = retailPriceSe*unitPeVal;
-                $("#retailPrice").val(cvRetailPrice);
+                $("#retailPrice").val(Math.round(cvRetailPrice));
             }
         }
     });

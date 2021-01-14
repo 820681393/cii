@@ -17,6 +17,16 @@
         .state{
             cursor: pointer;
         }
+        #goToOrder{
+            position: fixed;
+            right: 0px;
+            bottom: 22px;
+            background: #2196f3;
+            color: #fff;
+            padding: 13px 10px;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
     </style>
 </head>
 <body>
@@ -34,7 +44,7 @@
                             <a class="collapsed" data-toggle="collapse" data-parent="#accordion-styled" href="#accordion-styled-group3">查询条件</a>
                         </h6>
                     </div>
-                    <form action="/admin/goodsInfo/index" method="post">
+                    <form action="/admin/goodsInfo/stockIndex" method="post">
                         <div id="accordion-styled-group3" class="panel-collapse">
                             <div class="panel-body">
                                 <div class="row" style="margin-top: 10px;">
@@ -92,7 +102,6 @@
                 </div>
                 <div class="panel panel-flat">
                     <div class="table-responsive">
-                        <#--                        <div style="overflow-x: auto;   width:2000px;">-->
                         <table class="table fixed-table" >
                             <thead>
                             <tr class="border-bottom-danger">
@@ -117,7 +126,7 @@
                             <col style="width: 20%" />
                             <#if pageInfos??>
                                 <#list pageInfos.list as myn>
-                                    <tr class="border-top-primary">
+                                          <tr class="border-top-primary">
                                         <td>
                                             <#if myn.imgUrl??>
                                                 <img onclick="myImageOpen(this)" width="50px" src="${aliyunOos!}${myn.imgUrl!}"/>
@@ -136,7 +145,18 @@
                                         <td>
                                             ${myn.stockSe!}(${myn.unitPeName!})
                                         </td>
-                                        <td></td>
+                                        <td>
+                                            <#if myn.safeStock??>
+                                                <#if myn.stockSe lt myn.safeStock>
+                                                    <span style="color: red"><i class="icon-alert"></i>${myn.safeStock!}</span>
+                                                    <#else >
+                                                        ${myn.safeStock!}
+                                                </#if>
+                                            </#if>
+                                            <a class="collapsed" onclick="addToOrder('${myn.id!}')" style="color: #2196f3;">
+                                                <i class="icon-plus2"></i>补货
+                                            </a>
+                                        </td>
                                         <td>
                                             <#if myn.supplierName??>
                                                 ${myn.supplierName!}
@@ -159,14 +179,18 @@
                             <tr class="border-top-primary">
                                 <td colspan="15">
                                     <#import "../common/pagebar.ftl" as pagebar>
-                                    <@pagebar.pagebar pageInfo=pageInfos actionUrl="/admin/goodsInfo/index"/>
+                                    <@pagebar.pagebar pageInfo=pageInfos actionUrl="/admin/goodsInfo/stockIndex"/>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
-                        <#--                        </div>-->
                     </div>
                 </div>
+                <a href="/admin/orderInfo/submitIndex" id="goToOrder">
+                    <i class="icon-cart2"></i>
+                    前往采购
+                    <i class="icon-arrow-right15"></i>
+                </a>
                 <#include "../common/foot.ftl"/>
             </div>
         </div>
@@ -174,7 +198,20 @@
 </div>
 </body>
 <script>
+    var cacheOrder = localStorage.getItem("cacheOrder");
+    var orderList = {};
+    if(cacheOrder){
+        localStorage.setItem("cacheOrder",JSON.stringify(orderList));
+    }else{
+        localStorage.setItem("cacheOrder",JSON.stringify(orderList));
+    }
 
+    function addToOrder(id){
+        layer.msg("已加入采购列表");
+        var readCacheOrder = JSON.parse(localStorage.getItem("cacheOrder"));
+        readCacheOrder[id] = {"num":1,"unitType":2};
+        localStorage.setItem("cacheOrder",JSON.stringify(readCacheOrder));
+    }
 </script>
 </html>
 

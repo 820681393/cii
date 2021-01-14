@@ -97,7 +97,7 @@
                                             <div class="class-title">${got.name}</div>
                                              <#list goodsInfoList as myn>
                                                  <#if myn.goid==got.id>
-                                                     <div class="item goods-ct" id="${myn.id!}" unit-type="${myn.unitType!}" price="<#if myn.price??>${myn.price!}<#else >0</#if>" unit="${myn.unitPrName!}" price-se="<#if myn.priceSe??>${myn.priceSe!}<#else >0</#if>" unit-se="${myn.unitPeName!}" goid="${myn.goid!}" gtid="${myn.gtid!}" name="${myn.chName!}" en_name="${myn.enName!}" supplier_name="${myn.supplierName!}" supplier_address="${myn.supplierAddress!}" siid="${myn.siid}">
+                                                     <div class="item goods-ct" id="${myn.id!}" unit-type="${myn.unitType!}" price="<#if myn.tradePrice??>${myn.tradePrice!}<#else >0</#if>" unit="${myn.unitPrName!}" price-se="<#if myn.tradePriceSe??>${myn.tradePriceSe!}<#else >0</#if>" unit-se="${myn.unitPeName!}" goid="${myn.goid!}" gtid="${myn.gtid!}" name="${myn.chName!}" en_name="${myn.enName!}" supplier_name="${myn.supplierName!}" supplier_address="${myn.supplierAddress!}" siid="${myn.siid}">
                                                          <div class="item-left">
                                                              <div class="item-img">
                                                                  <#if myn.imgUrl??>
@@ -111,10 +111,10 @@
                                                              <div class="title">${myn.chName!}<br/>${myn.enName!}</div>
                                                              <div class="price">
                                                                  <#if myn.unitType==1>
-                                                                     <span class="show-price"><#if myn.price??>${myn.price!}<#else >0</#if></span>P/<span class="show-unit">${myn.unitPrName!}</span>
+                                                                     <span class="show-price"><#if myn.tradePrice??>${myn.tradePrice!}<#else >0</#if></span>P/<span class="show-unit">${myn.unitPrName!}</span>
 <#--                                                                     ${myn.unitPrName!}(主)-->
                                                                  <#else >
-                                                                     <span class="show-price"><#if myn.priceSe??>${myn.priceSe!}<#else >0</#if></span>P/<span class="show-unit">${myn.unitPeName!}</span>
+                                                                     <span class="show-price"><#if myn.tradePriceSe??>${myn.tradePriceSe!}<#else >0</#if></span>P/<span class="show-unit">${myn.unitPeName!}</span>
 <#--                                                                     ${myn.unitPeName!}(辅)-->
                                                                  </#if>
                                                                  <select class="unit-sel">
@@ -164,24 +164,7 @@
                             </#list>
                         </#if>
                     </select>
-<#--                    配送人：-->
-<#--                    <select id="ps_admin_id">-->
-<#--                        <#if merchantUserInfoList??>-->
-<#--                            <#list merchantUserInfoList as myn>-->
-<#--                                <#if myn.type==2>-->
-<#--                                    <option value="${myn.id}">${myn.name}</option>-->
-<#--                                </#if>-->
-<#--                            </#list>-->
-<#--                        </#if>-->
-<#--                    </select>-->
                 </div>
-<#--                <div class="order-sel-type">-->
-<#--                    结算方式：-->
-<#--                    <select id="bill_type">-->
-<#--                        <option value="1">现金</option>-->
-<#--                        <option value="2">周结算</option>-->
-<#--                    </select>-->
-<#--                </div>-->
                 <br/>
                 <div id="mi_address_id" class="address-info" <#if (merchantInfoAddresses?size>0)>ad-id="${merchantInfoAddresses[0].id}"</#if>>
                     <div class="address-info-ico">
@@ -230,6 +213,9 @@
                         </#if>
                         <#if merchantInfo.settlementMethod==2>
                             按周结算
+                        </#if>
+                        <#if merchantInfo.settlementMethod==3>
+                            按月结算
                         </#if>
                         <#else >
                         无结算方式
@@ -343,29 +329,29 @@
             var price = orderDom.attr("price");
             price = parseFloat(price);
             var priceSe = orderDom.attr("price-se");
-            priceSe = parseFloat(priceSe);
             var unit = orderDom.attr("unit");
             var unitSe = orderDom.attr("unit-se");
-
             var number = orderDom.find(".goods-number").val();
             number = parseInt(number);
             var totalPrice = (price*number);
+
             if(unitType==2){
+                price = parseFloat(priceSe);
+                unit = unitSe;
                 totalPrice = (priceSe*number);
             }
+
+
 
             var orderInfo = {};
             orderInfo["moiid"] = oiid;
             orderInfo["giid"] = goodsId;
             orderInfo["siid"] = siid;
             orderInfo["price"] = price;
-            orderInfo["priceSe"] = priceSe;
             orderInfo["unit"] = unit;
-            orderInfo["unitSe"] = unitSe;
             orderInfo["unitType"] = unitType;
             orderInfo["number"] = number;
             orderInfo["totalPrice"] = totalPrice;
-
             order_list_detail.push(orderInfo);
         }
         return order_list_detail;
@@ -375,15 +361,12 @@
         event.stopPropagation();//阻止冒泡事件
         var orderList = $(".order-list li");
         var mi_admin_id = $("#mi_admin_id").val();
-        // var ps_admin_id = $("#ps_admin_id").val();
-        var bill_type = <#if merchantInfo??>${merchantInfo.settlementMethod!}<#else >""</#if>;
+
         var mi_address_id = $("#mi_address_id").attr("ad-id");
 
         var receiveName = $("#mi_address_id").find("#s-name").text();
         var receiveTel = $("#mi_address_id").find("#s-tel").text();
         var receiveAddress = $("#mi_address_id").find("#s-address").text();
-        var entrustName = $("#mi_admin_id option:selected").text();
-        // var ps_admin_name = $("#ps_admin_id option:selected").text();
 
         if(orderList.length==0){
             layer.msg("请选择商品");
@@ -407,7 +390,7 @@
         layer.confirm('订单确认', {
             btn: ['立即提交', '返回修改']
         }, function(index){
-            submitOrderInfo(mi_admin_id,bill_type,mi_address_id,receiveName,receiveTel,receiveAddress,entrustName,sum_price,sum_number,function(){
+            submitOrderInfo(mi_admin_id,mi_address_id,receiveName,receiveTel,receiveAddress,sum_price,sum_number,function(){
                 layer.close(index)
                 layer.load(2);
                 window.location.href = "/merchants/orderInfo/submitIndex";
@@ -415,20 +398,15 @@
         });
     });
 
-    function submitOrderInfo(mi_admin_id,bill_type,mi_address_id,receiveName,receiveTel,receiveAddress,entrustName,sum_price,sum_number,callBack){
+    function submitOrderInfo(mi_admin_id,mi_address_id,receiveName,receiveTel,receiveAddress,sum_price,sum_number,callBack){
         $.ajax({
             url: "/merchants/orderInfo/submitIndexIng",
             data: {
                 miAdminId: mi_admin_id,
-                miAddressId: mi_address_id,
-                billType: bill_type,
+                miaid: mi_address_id,
                 receiveName: receiveName,
                 receiveTel: receiveTel,
                 receiveAddress:receiveAddress,
-                entrustName:entrustName,
-                // psAdminId:ps_admin_id,
-                // psAdminName:ps_admin_name,
-                entrustName:entrustName,
                 sumPrice:sum_price,
                 sumNumber:sum_number
             },

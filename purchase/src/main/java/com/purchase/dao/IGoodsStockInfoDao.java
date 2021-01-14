@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-01-07
  */
 public interface IGoodsStockInfoDao extends BaseMapper<GoodsStockInfo> {
-
+    Integer sumTodayGoodsStockInfoNumber();
 }
