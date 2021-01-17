@@ -1,37 +1,37 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <#if mode==1>
-        <#assign title="商品入库">
-    </#if>
-    <#if mode==2>
-        <#assign title="商品出库">
-    </#if>
-    <#if mode==3>
-        <#assign title="库存盘点">
-    </#if>
-    <#include "../common/head.ftl"/>
+<#--<!DOCTYPE html>-->
+<#--<html lang="en">-->
+<#--<head>-->
+<#--    <#if mode==1>-->
+<#--        <#assign title="商品入库">-->
+<#--    </#if>-->
+<#--    <#if mode==2>-->
+<#--        <#assign title="商品出库">-->
+<#--    </#if>-->
+<#--    <#if mode==3>-->
+<#--        <#assign title="库存盘点">-->
+<#--    </#if>-->
+<#--    <#include "../common/head.ftl"/>-->
     <link href="/statics/admin/assets/css/order.css" rel="stylesheet" type="text/css">
-    <script language="javascript" src="/statics/admin/assets/js/plugins/lodop/print.js"></script>
-    <style>
-        .pure-table {
-            display: none;
-        }
-        .layui-layer-btn1{
-            border-color: #e9928f!important;
-            background-color: #dd8686!important;
-            color: #fff!important;
-        }
-    </style>
-</head>
-<body>
-<#include "../common/top.ftl"/>
+<#--    <script language="javascript" src="/statics/admin/assets/js/plugins/lodop/print.js"></script>-->
+<#--    <style>-->
+<#--        .pure-table {-->
+<#--            display: none;-->
+<#--        }-->
+<#--        .layui-layer-btn1{-->
+<#--            border-color: #e9928f!important;-->
+<#--            background-color: #dd8686!important;-->
+<#--            color: #fff!important;-->
+<#--        }-->
+<#--    </style>-->
+<#--</head>-->
+<#--<body>-->
+<#--<#include "../common/top.ftl"/>-->
 <div class="page-container">
 
     <div class="page-content">
-        <#assign menuType="goodsInfo">
-        <#include "../common/menu.ftl"/>
+<#--        <#assign menuType="goodsInfo">-->
+<#--        <#include "../common/menu.ftl"/>-->
         <div class="content-wrapper">
             <div class="content">
                 <div class="row">
@@ -184,7 +184,7 @@
                                     </a>
                                 </h6>
                                 <hr/>
-                                <div class="sel-order-ct">
+                                <div class="sel-order-ct" style="height: 300px;">
                                     <ul class="order-list">
                                     </ul>
                                 </div>
@@ -218,7 +218,7 @@
                         </div>
                     </div>
                 </div>
-                <#include "../common/foot.ftl"/>
+<#--                <#include "../common/foot.ftl"/>-->
             </div>
         </div>
     </div>
@@ -460,21 +460,21 @@
                                 <tr id="`+id+`" unit-type="1" price="`+price+`">
                                     <td class="name">`+name+"<br/>"+en_name+`</td>
                                     <td class="unit">`+unit+`</td>
-                                    <td class="price">`+price+`</td>
+                                    <td class="price"><input type="number" class="form-control"/></td>
                                     <td class="stock">`+stock+`</td>
-                                    <td><input type="number" class="stock-number form-control"/></td>
+                                    <td><input type="number" style="width:88px;" class="stock-number form-control"/></td>
                                 </tr>
                                 <tr id="`+id+`" unit-type="2" price="`+priceSe+`">
                                     <td class="name">`+name+"<br/>"+en_name+`</td>
                                     <td class="unit">`+unitSe+`</td>
-                                    <td class="price">`+priceSe+`</td>
+                                    <td class="price"><input type="number" class="form-control"/></td>
                                     <td class="stock">`+stockSe+`</td>
-                                    <td><input type="number" class="stock-number form-control"/></td>
+                                    <td><input type="number" style="width:88px;" class="stock-number form-control"/></td>
                                 </tr>
                             </tbody>
                             <tfoot><tr><td colspan="5"><button id="confirm-sel" class="btn bg-blue btn-block">确认</button></td></tr></tfoot>
                           </table>`,
-                area:  ["666px"]   // 长，宽
+                area:  ["700px"]   // 长，宽
             });
             $("#confirm-sel").unbind("click").click(function(){
                 var selNormsList = $("#sel-goods-norms>tbody>tr");
@@ -482,12 +482,12 @@
                     var selNorms = selNormsList.eq(i);
                     var id = selNorms.attr("id");
                     var unit_type = selNorms.attr("unit-type");
-                    var price = selNorms.attr("price");
+                    var price = selNorms.find(".price>input").val();
                     var name = selNorms.find(".name").html();
                     var unit = selNorms.find(".unit").text();
                     var stock = selNorms.find(".stock").text();
                     var stockNumber = selNorms.find(".stock-number").val();
-                    if(stockNumber&&stockNumber>0){
+                    if(stockNumber&&stockNumber>0&&price&&price>0){
                         var goodsInfo = $(".order-list li[id='ol-"+id+"'][unit-type='"+unit_type+"']");
                         if(goodsInfo.length!=0){
                             var goodsNumberDom = goodsInfo.find(".goods-number");
@@ -630,11 +630,8 @@
         $("#total-price").text(totalPrice);
     }
 </script>
-<script language="javascript" type="text/javascript">
-
-</script>
-</body>
-</html>
+<#--</body>-->
+<#--</html>-->
 
 
 

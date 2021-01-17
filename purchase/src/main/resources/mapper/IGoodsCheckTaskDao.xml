@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.purchase.dao.IGoodsCheckTaskDao">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.purchase.model.GoodsCheckTask">
+        <id column="id" property="id" />
+         <result column="order_number" property="orderNumber" />
+         <result column="goid" property="goid" />
+         <result column="aiid" property="aiid" />
+         <result column="receive_aiid" property="receiveAiid" />
+         <result column="create_time" property="createTime" />
+         <result column="finish_time" property="finishTime" />
+         <result column="remark" property="remark" />
+         <result column="state" property="state" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_number, goid, aiid, receive_aiid, create_time, finish_time, remark, state
+    </sql>
+
+    <select id="sumTodayGoodsCheckTaskNumber" resultType="java.lang.Integer">
+        SELECT COUNT(1) AS total_number FROM goods_check_task WHERE TO_DAYS(create_time) = TO_DAYS(NOW())
+    </select>
+</mapper>

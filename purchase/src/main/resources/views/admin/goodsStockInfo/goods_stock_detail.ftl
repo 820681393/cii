@@ -59,7 +59,7 @@
                                     <th>品名</th>
                                     <th>单位</th>
                                     <th>单价</th>
-                                    <th><#if goodsStockInfo.type==1>入库</#if><#if goodsStockInfo.type==2>出库</#if><#if goodsStockInfo.type==3>盘点</#if>前数量</th>
+<#--                                    <th><#if goodsStockInfo.type==1>入库</#if><#if goodsStockInfo.type==2>出库</#if><#if goodsStockInfo.type==3>盘点</#if>前数量</th>-->
                                     <th><#if goodsStockInfo.type==1>入库</#if><#if goodsStockInfo.type==2>出库</#if><#if goodsStockInfo.type==3>盘点</#if>数量</th>
                                     <th>总价</th>
                                 </tr>
@@ -71,7 +71,7 @@
                                             <td>${myn.goodsName!}</td>
                                             <td>${myn.unit!}</td>
                                             <td>${myn.price!}</td>
-                                            <td>${myn.beforeNumber!}</td>
+<#--                                            <td>${myn.beforeNumber!}</td>-->
                                             <td>${myn.number!}</td>
                                             <td>${myn.totalPrice!}</td>
                                         </tr>

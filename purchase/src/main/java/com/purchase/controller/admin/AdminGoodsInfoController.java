@@ -55,6 +55,15 @@ public class AdminGoodsInfoController {
     IUnitInfoService iUnitInfoService;
 
     @Autowired
+    IAdminInfoService iAdminInfoService;
+
+    @Autowired
+    IAdminToRoleService iAdminToRoleService;
+
+    @Autowired
+    ICarInfoService iCarInfoService;
+
+    @Autowired
     SystemConfig systemConfig;
 
     MyLogger myLogger=new MyLogger(this.getClass());
@@ -117,7 +126,18 @@ public class AdminGoodsInfoController {
         List<GoodsOneType> goodsOneTypeList =iGoodsOneTypeService.list();
         List<GoodsTowType> goodsTowTypeList =iGoodsTowTypeService.list();
         List<SupplierInfo> supplierInfoList =iSupplierInfoService.list();
+        List<AdminInfo> adminInfoList=iAdminInfoService.list();
+        List<AdminToRole> adminToRoles = iAdminToRoleService.list();
+        List<CarInfo> carInfoList=iCarInfoService.list();
         List<UnitInfo> unitInfoList =iUnitInfoService.list();
+        List<AdminInfo> caiGouAdminInfoList = new ArrayList<>();
+        for(AdminInfo adminInfo:adminInfoList){
+            for(AdminToRole adminToRole:adminToRoles){
+                if(adminInfo.getId()==adminToRole.getAiid()&&adminToRole.getRiid()==9){
+                    caiGouAdminInfoList.add(adminInfo);
+                }
+            }
+        }
         for(GoodsInfo gInfo : pageInfos.getList()){
             for(GoodsOneType goodsOneType : goodsOneTypeList){
                 if(goodsOneType.getId().equals(gInfo.getGoid())){
@@ -143,12 +163,22 @@ public class AdminGoodsInfoController {
                 }
             }
         }
+        List<CarInfo> availableCarInfoList = new ArrayList<>();
+        String week=MyDateUtil.getWeek();
+        for(CarInfo carInfo:carInfoList){
+            if(carInfo.getState()==1&&!carInfo.getLimitDay().contains(week)){
+                availableCarInfoList.add(carInfo);
+            }
+        }
+
         model.addAttribute("pageInfos",pageInfos);
         model.addAttribute("aliyunOos",systemConfig.getAliyunOos());
         model.addAttribute("goodsInfo",goodsInfo);
         model.addAttribute("goodsOneTypeList",goodsOneTypeList);
         model.addAttribute("goodsTowTypeList",goodsTowTypeList);
         model.addAttribute("supplierInfoList",supplierInfoList);
+        model.addAttribute("adminInfoList",caiGouAdminInfoList);
+        model.addAttribute("carInfoList",availableCarInfoList);
         model.addAttribute("unitInfoList",unitInfoList);
         return "/admin/goodsStockInfo/goods_stock_info_index";
     }

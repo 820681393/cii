@@ -20,4 +20,6 @@ public interface IGoodsInfoService extends IService<GoodsInfo>,Repository<GoodsI
     PageInfo<GoodsInfo> selectGoodsInfoPageInfo(GoodsInfo goodsInfo);
 
     List<GoodsInfo> findByState(Integer state);
+
+    List<GoodsInfo> findByGoid(Integer goid);
 }

@@ -345,6 +345,7 @@ public class AdminOrderController {
     @ResponseBody
     @ApiOperation(value = "订单回执详情")
     public ResponseResult receiptOrderDetail(Model model,HttpServletRequest request,@RequestBody List<OrderInfoDetail> orderInfoDetails){
+
         if(iOrderInfoDetailService.updateBatchById(orderInfoDetails)){
             return ResponseResult.successResult(orderInfoDetails,request);
         };
@@ -576,9 +577,7 @@ public class AdminOrderController {
                 addOrderInfoDetail.setGiid(orderInfoDetail.getGiid());
                 addOrderInfoDetail.setSiid(orderInfoDetail.getSiid());
                 addOrderInfoDetail.setPrice(orderInfoDetail.getPrice());
-                addOrderInfoDetail.setPriceSe(orderInfoDetail.getPriceSe());
                 addOrderInfoDetail.setUnit(orderInfoDetail.getUnit());
-                addOrderInfoDetail.setUnitSe(orderInfoDetail.getUnitSe());
                 addOrderInfoDetail.setUnitType(orderInfoDetail.getUnitType());
                 addOrderInfoDetail.setTotalPrice(orderInfoDetail.getTotalPrice());
                 addOrderInfoDetail.setNumber(orderInfoDetail.getNumber());

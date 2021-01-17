@@ -57,19 +57,19 @@
                             商品<#if goodsStockInfo.type==1>入库</#if><#if goodsStockInfo.type==2>出库</#if><#if goodsStockInfo.type==3>盘点</#if>信息列表
                         </a>
                         <#if goodsStockInfo.type==1>
-                            <a class="collapsed"  onclick="location.href='/admin/goodsStockInfo/stockInput?mode=1'" style="float: right">
+                            <a class="collapsed"  onclick="goodsStockInputAjax('1')" style="float: right">
                                 <i class="icon-plus2"></i>
                                 新增入库
                             </a>
                         </#if>
                         <#if goodsStockInfo.type==2>
-                            <a class="collapsed"  onclick="location.href='/admin/goodsStockInfo/stockInput?mode=2'" style="float: right">
+                            <a class="collapsed"  onclick="goodsStockInputAjax('2')" style="float: right">
                                 <i class="icon-plus2"></i>
                                 新增出库
                             </a>
                         </#if>
                         <#if goodsStockInfo.type==3>
-                            <a class="collapsed"  onclick="location.href='/admin/goodsStockInfo/stockInput?mode=3'" style="float: right">
+                            <a class="collapsed"  onclick="goodsStockInputAjax('3')" style="float: right">
                                 <i class="icon-plus2"></i>
                                 新增盘点
                             </a>
@@ -82,7 +82,7 @@
                             <thead>
                             <tr class="border-bottom-danger">
                                 <th>单号</th>
-                                <th>数量</th>
+<#--                                <th>数量</th>-->
                                 <th>总价</th>
                                 <th>类型</th>
                                 <th>时间</th>
@@ -99,12 +99,12 @@
                             <col style="width: 20%" />
                             <col style="width: 20%" />
                             <col style="width: 20%" />
-                            <col style="width: 20%" />
+<#--                            <col style="width: 20%" />-->
                             <#if pageInfos??>
                                 <#list pageInfos.list as myn>
                                     <tr class="border-top-primary">
                                         <td>${myn.orderNumber!}</td>
-                                        <td>${myn.stockNumber!}</td>
+<#--                                        <td>${myn.stockNumber!}</td>-->
                                         <td>${myn.totalPrice!}</td>
                                         <td>${myn.typeName!}</td>
                                         <td>${(myn.createTime!?string("yyyy-MM-dd HH:mm:ss"))?replace(" ","<br>")}</td>
@@ -155,6 +155,31 @@
                     shadeClose: true,
                     content: data,
                     area:["988px","572px"]
+                });
+            }
+        })
+    }
+
+    function goodsStockInputAjax(mode){
+        $.ajax({
+            url:"/admin/goodsStockInfo/stockInput",
+            data:{
+                mode:mode
+            },
+            headers: {
+                'httpType': "HTML",
+            },
+            type:"get",
+            async:true,
+            success:function (data) {
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    anim: 1,
+                    shadeClose: true,
+                    content: data,
+                    area:["1100px","650px"]
                 });
             }
         })

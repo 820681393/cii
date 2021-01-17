@@ -1,6 +1,8 @@
 package com.purchase.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.mybaits.jpa.annotation.PageQuery;
+import com.mybaits.jpa.jpaEnum.QueryOrderType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -43,6 +45,7 @@ public class GoodsStockInfo extends PageInfoModel implements Serializable  {
     private Integer type;
 
     @ApiModelProperty(value = "时间")
+    @PageQuery(queryOrderType= QueryOrderType.DESC)
     private Date createTime;
 
     @ApiModelProperty(value = "总价")

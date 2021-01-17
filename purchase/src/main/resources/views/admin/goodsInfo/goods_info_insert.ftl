@@ -75,10 +75,10 @@
                                             <label class="col-xs-2">采购成本</label>
                                             <label class="col-xs-10">
                                                 <input style="width: 141px;display: inline-block;" type="number" id="price" name="price" value="" class="form-control" placeholder="采购成本(主)">
-                                                peso<span class="unit-1"></span>
+                                                P<span class="unit-1"></span>
                                                 &nbsp;
                                                 <input style="width: 141px;display: inline-block;" type="number" id="priceSe" name="priceSe" value="" class="form-control" placeholder="采购成本(辅)">
-                                                peso<span class="unit-2"></span>
+                                                P<span class="unit-2"></span>
                                                 <a class="btn btn-primary" id="conversion">换算</a>
                                             </label>
                                         </div>
@@ -86,49 +86,52 @@
                                             <label class="col-xs-2">批发价格</label>
                                             <label class="col-xs-10">
                                                 <input style="width: 141px;display: inline-block;" type="number" id="tradePrice" name="tradePrice" value="" class="form-control" placeholder="批发价格(主)">
-                                                peso<span class="unit-1"></span>
+                                                P<span class="unit-1"></span>
                                                 &nbsp;
                                                 <input style="width: 141px;display: inline-block;" type="number" id="tradePriceSe" name="tradePriceSe" value="" class="form-control" placeholder="批发价格(辅)">
-                                                peso<span class="unit-2"></span>
+                                                P<span class="unit-2"></span>
                                             </label>
                                         </div>
                                         <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-2">零售价格</label>
                                             <label class="col-xs-10">
                                                 <input style="width: 141px;display: inline-block;" type="number" id="retailPrice" name="retailPrice" value="" class="form-control" placeholder="零售价格(主)">
-                                                peso<span class="unit-1"></span>
+                                                P<span class="unit-1"></span>
                                                 &nbsp;
                                                 <input style="width: 141px;display: inline-block;" type="number" id="retailPriceSe" name="retailPriceSe" value="" class="form-control" placeholder="零售价格(辅)">
-                                                peso<span class="unit-2"></span>
+                                                P<span class="unit-2"></span>
                                             </label>
                                         </div>
                                         <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-2">安全库存</label>
-                                            <label class="col-xs-10">
-                                                <input type="number" name="safeStock" class="form-control" placeholder="安全库存">
+                                            <label class="col-xs-5">
+                                                <input type="number" name="safeStock" class="form-control" placeholder="安全库存(主)">
+                                            </label>
+                                            <label class="col-xs-5">
+                                                <input type="number" name="safeStockSe" class="form-control" placeholder="安全库存(辅)">
                                             </label>
                                         </div>
-                                        <div class="col-xs-12" style="margin-top: 20px;">
-                                            <label class="col-xs-2">应用单位</label>
-                                            <label class="col-xs-10">
-                                                <select name="unitType" class="form-control">
-                                                    <option value="1">主</option>
-                                                    <option value="2">辅</option>
-                                                </select>
-                                            </label>
-                                        </div>
-                                        <div class="col-xs-12" style="margin-top: 20px;">
-                                            <label class="col-xs-2">利润率</label>
-                                            <label class="col-xs-10">
-                                                <input type="text" name="percentage" class="form-control" placeholder="利润率">
-                                            </label>
-                                        </div>
-                                        <div class="col-xs-12" style="margin-top: 20px;">
-                                            <label class="col-xs-2">额外费用</label>
-                                            <label class="col-xs-10">
-                                                <input type="text" name="extraCosts" class="form-control" placeholder="额外费用">
-                                            </label>
-                                        </div>
+<#--                                        <div class="col-xs-12" style="margin-top: 20px;">-->
+<#--                                            <label class="col-xs-2">应用单位</label>-->
+<#--                                            <label class="col-xs-10">-->
+<#--                                                <select name="unitType" class="form-control">-->
+<#--                                                    <option value="1">主</option>-->
+<#--                                                    <option value="2">辅</option>-->
+<#--                                                </select>-->
+<#--                                            </label>-->
+<#--                                        </div>-->
+<#--                                        <div class="col-xs-12" style="margin-top: 20px;">-->
+<#--                                            <label class="col-xs-2">利润率</label>-->
+<#--                                            <label class="col-xs-10">-->
+<#--                                                <input type="text" name="percentage" class="form-control" placeholder="利润率">-->
+<#--                                            </label>-->
+<#--                                        </div>-->
+<#--                                        <div class="col-xs-12" style="margin-top: 20px;">-->
+<#--                                            <label class="col-xs-2">额外费用</label>-->
+<#--                                            <label class="col-xs-10">-->
+<#--                                                <input type="text" name="extraCosts" class="form-control" placeholder="额外费用">-->
+<#--                                            </label>-->
+<#--                                        </div>-->
                                         <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-2">一级分类</label>
                                             <label class="col-xs-10">

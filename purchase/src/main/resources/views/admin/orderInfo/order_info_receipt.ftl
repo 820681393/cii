@@ -61,26 +61,26 @@
                                             </#if>
                                         </td>
                                         <td>
-                                            <#if myn.unitType==1>
-                                                <span class="price">${myn.price!}<span>
-                                            <#else >
-                                                <span class="price">${myn.priceSe!}<span>
-                                            </#if>
+<#--                                            <#if myn.unitType==1>-->
+                                                <span class="price">${myn.price!}</span>
+<#--                                            <#else >-->
+<#--                                                <span class="price">${myn.priceSe!}<span>-->
+<#--                                            </#if>-->
                                         </td>
                                         <td>
-                                            <#if myn.unitType==1>
+<#--                                            <#if myn.unitType==1>-->
                                                 <span class="unit">${myn.unit!}</span>
-                                                <select disabled class="unit-type-sel" data-id="${myn.id}" <#if orderInfo.state==3>disabled</#if>>
-                                                    <option value="1" selected="selected">主</option>
-                                                    <option value="2">辅</option>
-                                                </select>
-                                            <#else >
-                                            <span class="unit">${myn.unitSe!}</span>
-                                                <select class="unit-type-sel" data-id="${myn.id}" <#if orderInfo.state==3>disabled</#if>>
-                                                    <option value="1">主</option>
-                                                    <option value="2" selected="selected">辅</option>
-                                                </select>
-                                            </#if>
+<#--                                                <select disabled class="unit-type-sel" data-id="${myn.id}" <#if orderInfo.state==3>disabled</#if>>-->
+<#--                                                    <option value="1" selected="selected">主</option>-->
+<#--                                                    <option value="2">辅</option>-->
+<#--                                                </select>-->
+<#--                                            <#else >-->
+<#--                                            <span class="unit">${myn.unitSe!}</span>-->
+<#--                                                <select class="unit-type-sel" data-id="${myn.id}" <#if orderInfo.state==3>disabled</#if>>-->
+<#--                                                    <option value="1">主</option>-->
+<#--                                                    <option value="2" selected="selected">辅</option>-->
+<#--                                                </select>-->
+<#--                                            </#if>-->
                                         </td>
                                         <td >
                                             <#if orderInfo.state==2>

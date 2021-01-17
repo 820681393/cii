@@ -75,68 +75,113 @@
                                                             </#if>
                                                         </#list>
                                                     </select>
-                                                    <a class="btn btn-primary" id="confirm-unit">确定</a>
+<#--                                                    <a class="btn btn-primary" id="confirm-unit">确定</a>-->
                                                 </#if>
                                             </label>
                                         </div>
                                         <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-2">采购成本</label>
-                                            <label class="col-xs-10">
-                                                <input style="width: 141px;display: inline-block;" type="number" id="price" name="price" value="${goodsInfo.price!}" class="form-control" placeholder="参考价格(主)">
-                                                peso<span class="unit-1"></span>
+                                            <label class="col-xs-4">
+<#--                                                <input style="width: 141px;display: inline-block;" type="number" id="price" name="price" value="${goodsInfo.price!}" class="form-control" placeholder="参考价格(主)">-->
+                                                ${goodsInfo.price!}P<span class="unit-1"></span>
                                                 &nbsp;
-                                                <input style="width: 141px;display: inline-block;" type="number" id="priceSe" name="priceSe" value="${goodsInfo.priceSe!}" class="form-control" placeholder="参考价格(辅)">
-                                                peso<span class="unit-2"></span>
-                                                <a class="btn btn-primary" id="conversion">换算</a>
+<#--                                                <input style="width: 141px;display: inline-block;" type="number" id="priceSe" name="priceSe" value="${goodsInfo.priceSe!}" class="form-control" placeholder="参考价格(辅)">-->
+<#--                                                <a class="btn btn-primary" id="conversion">换算</a>-->
+                                            </label>
+                                            <label class="col-xs-4">
+                                                ${goodsInfo.priceSe!}P<span class="unit-2"></span>
                                             </label>
                                         </div>
                                         <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-2">批发价格</label>
-                                            <label class="col-xs-10">
-                                                <input style="width: 141px;display: inline-block;" type="number" id="tradePrice" name="tradePrice" value="${goodsInfo.tradePrice!}" class="form-control" placeholder="批发价格(主)">
-                                                peso<span class="unit-1"></span>
-                                                &nbsp;
-                                                <input style="width: 141px;display: inline-block;" type="number" id="tradePriceSe" name="tradePriceSe" value="${goodsInfo.tradePriceSe!}" class="form-control" placeholder="批发价格(辅)">
-                                                peso<span class="unit-2"></span>
+                                            <label class="col-xs-4">
+                                                ${goodsInfo.tradePrice!}P<span class="unit-1"></span>
                                             </label>
+                                            <label class="col-xs-4">
+                                                ${goodsInfo.tradePriceSe!}P<span class="unit-2"></span>
+                                            </label>
+                                            <div class="col-xs-12">
+                                                <label class="col-xs-2"></label>
+                                                <label class="col-xs-10">
+                                                    <input style="width: 215px;display: inline-block;" type="text" id="mlr-pf"  class="form-control" placeholder="毛利润">
+                                                    <a class="btn btn-primary" id="mlr-confirm-pf">确定</a>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <label class="col-xs-2"></label>
+                                                <label class="col-xs-5">
+                                                    <input style="width: 141px;display: inline-block;" type="number" id="tradePrice" name="tradePrice" value="${goodsInfo.tradePrice!}" class="form-control" placeholder="批发价格(主)">
+                                                    P<span class="unit-1"></span>
+                                                    <br/>
+                                                    批发上下架：<input type="checkbox" to="state" <#if goodsInfo.state==1>checked</#if>/>
+                                                    <input style="display: none;" type="number" name="state"  class="form-control" value="${goodsInfo.state!}">
+                                                </label>
+                                                <label class="col-xs-5">
+                                                    <input style="width: 141px;display: inline-block;" type="number" id="tradePriceSe" name="tradePriceSe" value="${goodsInfo.tradePriceSe!}" class="form-control" placeholder="批发价格(辅)">
+                                                    P<span class="unit-2"></span>
+                                                </label>
+                                            </div>
                                         </div>
                                         <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-2">零售价格</label>
-                                            <label class="col-xs-10">
-                                                <input style="width: 141px;display: inline-block;" type="number" id="retailPrice" name="retailPrice" value="${goodsInfo.retailPrice!}" class="form-control" placeholder="零售价格(主)">
-                                                peso<span class="unit-1"></span>
-                                                &nbsp;
-                                                <input style="width: 141px;display: inline-block;" type="number" id="retailPriceSe" name="retailPriceSe" value="${goodsInfo.retailPriceSe!}" class="form-control" placeholder="零售价格(辅)">
-                                                peso<span class="unit-2"></span>
+                                            <label class="col-xs-4">
+                                                ${goodsInfo.retailPrice!}P<span class="unit-1"></span>
                                             </label>
+                                            <label class="col-xs-4">
+                                                ${goodsInfo.retailPriceSe!}P<span class="unit-2"></span>
+                                            </label>
+                                            <div class="col-xs-12">
+                                                <label class="col-xs-2"></label>
+                                                <label class="col-xs-10">
+                                                    <input style="width: 215px;display: inline-block;" type="text" id="mlr-ls" class="form-control" placeholder="毛利润">
+                                                    <a class="btn btn-primary" id="mlr-confirm-ls">确定</a>
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <label class="col-xs-2"></label>
+                                                <label class="col-xs-5">
+                                                    <input style="width: 141px;display: inline-block;" type="number" id="retailPrice" name="retailPrice" value="${goodsInfo.retailPrice!}" class="form-control" placeholder="零售价格(主)">
+                                                    P<span class="unit-1"></span>
+                                                    <br/>
+                                                    零售上下架：<input type="checkbox" to="retailState" <#if goodsInfo.retailState==1>checked</#if>/>
+                                                    <input style="display: none;" type="number" name="retailState"  class="form-control" value="${goodsInfo.retailState!}">
+                                                </label>
+                                                <label class="col-xs-5">
+                                                    <input style="width: 141px;display: inline-block;" type="number" id="retailPriceSe" name="retailPriceSe" value="${goodsInfo.retailPriceSe!}" class="form-control" placeholder="零售价格(辅)">
+                                                    P<span class="unit-2"></span>
+                                                </label>
+                                            </div>
                                         </div>
                                         <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-2">安全库存</label>
-                                            <label class="col-xs-10">
-                                                <input type="number" name="safeStock" value="${goodsInfo.safeStock!}" class="form-control" placeholder="安全库存">
+                                            <label class="col-xs-5">
+                                                <input type="number" name="safeStock" value="${goodsInfo.safeStock!}" class="form-control" placeholder="安全库存(主)">
+                                            </label>
+                                            <label class="col-xs-5">
+                                                <input type="number" name="safeStockSe" value="${goodsInfo.safeStockSe!}" class="form-control" placeholder="安全库存(辅)">
                                             </label>
                                         </div>
-                                        <div class="col-xs-12" style="margin-top: 20px;">
-                                            <label class="col-xs-2">应用单位</label>
-                                            <label class="col-xs-10">
-                                                <select name="unitType" class="form-control">
-                                                    <option value="1" <#if goodsInfo.unitType??&&goodsInfo.unitType==1>selected="selected"</#if>>主</option>
-                                                    <option value="2" <#if goodsInfo.unitType??&&goodsInfo.unitType==2>selected="selected"</#if>>辅</option>
-                                                </select>
-                                            </label>
-                                        </div>
-                                        <div class="col-xs-12" style="margin-top: 20px;">
-                                            <label class="col-xs-2">利润率</label>
-                                            <label class="col-xs-10">
-                                                <input type="text" name="percentage" value="${goodsInfo.percentage!}" class="form-control" placeholder="利润率">
-                                            </label>
-                                        </div>
-                                        <div class="col-xs-12" style="margin-top: 20px;">
-                                            <label class="col-xs-2">额外费用</label>
-                                            <label class="col-xs-10">
-                                                <input type="text" name="extraCosts" value="${goodsInfo.extraCosts!}" class="form-control" placeholder="额外费用">
-                                            </label>
-                                        </div>
+<#--                                        <div class="col-xs-12" style="margin-top: 20px;">-->
+<#--                                            <label class="col-xs-2">应用单位</label>-->
+<#--                                            <label class="col-xs-10">-->
+<#--                                                <select name="unitType" class="form-control">-->
+<#--                                                    <option value="1" <#if goodsInfo.unitType??&&goodsInfo.unitType==1>selected="selected"</#if>>主</option>-->
+<#--                                                    <option value="2" <#if goodsInfo.unitType??&&goodsInfo.unitType==2>selected="selected"</#if>>辅</option>-->
+<#--                                                </select>-->
+<#--                                            </label>-->
+<#--                                        </div>-->
+<#--                                        <div class="col-xs-12" style="margin-top: 20px;">-->
+<#--                                            <label class="col-xs-2">利润率</label>-->
+<#--                                            <label class="col-xs-10">-->
+<#--                                                <input type="text" name="percentage" value="${goodsInfo.percentage!}" class="form-control" placeholder="利润率">-->
+<#--                                            </label>-->
+<#--                                        </div>-->
+<#--                                        <div class="col-xs-12" style="margin-top: 20px;">-->
+<#--                                            <label class="col-xs-2">额外费用</label>-->
+<#--                                            <label class="col-xs-10">-->
+<#--                                                <input type="text" name="extraCosts" value="${goodsInfo.extraCosts!}" class="form-control" placeholder="额外费用">-->
+<#--                                            </label>-->
+<#--                                        </div>-->
                                         <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-2">一级分类</label>
                                             <label class="col-xs-10">
@@ -206,6 +251,26 @@
 </html>
 
 <script>
+    $("#mlr-confirm-pf,#mlr-confirm-ls").click(function(){
+        var mlr = 0;
+        var id = $(this).attr("id");
+        if(id=="mlr-confirm-pf"){
+            mlr = $("#mlr-pf").val();
+        }else if(id=="mlr-confirm-ls"){
+            mlr = $("#mlr-ls").val();
+        }
+        var price = ${goodsInfo.price!};
+        var priceSe = ${goodsInfo.priceSe!};
+        var setPrice = Math.round(mlr*price);
+        var setPriceSe = Math.round(mlr*priceSe);
+        if(id=="mlr-confirm-pf"){
+            $("#tradePrice").val(setPrice);
+            $("#tradePriceSe").val(setPriceSe);
+        }else if(id=="mlr-confirm-ls"){
+            $("#retailPrice").val(setPrice);
+            $("#retailPriceSe").val(setPriceSe);
+        }
+    });
     var unitCf = false;
     $("#conversion").unbind("click").click(function(){
         var price = $("#price").val();
@@ -382,6 +447,16 @@
         $("#type").val(2);
         $("form").submit();
     }
+
+    $("input[to]").click(function(){
+        var to = $(this).attr("to");
+        var state = 0;
+        if(this.checked){
+            state = 1;
+        }
+        $("input[name='"+to+"']").val(state);
+    });
+
     <#if msgInfo??>
     layer.msg("${msgInfo}");
     </#if>

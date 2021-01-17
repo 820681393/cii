@@ -27,7 +27,7 @@ public class AutoCreateService {
     public void MusaAotuCreateTable() {
         MybatisPlusGeneratorUtils mybatisPlusGeneratorUtils=new MybatisPlusGeneratorUtils();
         mybatisPlusGeneratorUtils.init("Musa",springBootApplicationConfig);
-        mybatisPlusGeneratorUtils.createTableInfo("merchant_deliver_info");
+        mybatisPlusGeneratorUtils.createTableInfo("goods_check_task_detail");
     }
 
 

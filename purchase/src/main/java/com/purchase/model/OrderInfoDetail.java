@@ -43,17 +43,11 @@ public class OrderInfoDetail extends PageInfoModel implements Serializable  {
     @ApiModelProperty(value = "供应商id")
     private Integer siid;
 
-    @ApiModelProperty(value = "参考价格(主)")
+    @ApiModelProperty(value = "价格")
     private BigDecimal price;
 
-    @ApiModelProperty(value = "参考价格(辅)")
-    private BigDecimal priceSe;
-
-    @ApiModelProperty(value = "单位(主)")
+    @ApiModelProperty(value = "单位")
     private String unit;
-
-    @ApiModelProperty(value = "单位(辅)")
-    private String unitSe;
 
     @ApiModelProperty(value = "单位类型：1-主，2-辅")
     private Integer unitType;

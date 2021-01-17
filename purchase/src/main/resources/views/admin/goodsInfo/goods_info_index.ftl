@@ -152,13 +152,18 @@
                                             </td>
                                             <td>${myn.goName!}</td>
                                             <td>
-                                                <#if myn.unitType??>
-                                                    <#if myn.unitType==1>
-                                                        ${myn.price!}
-                                                    <#else >
-                                                        ${myn.priceSe!}
-                                                    </#if>
-                                                </#if>
+<#--                                                <#if myn.unitType??>-->
+<#--                                                    <#if myn.unitType==1>-->
+                                                        <#if myn.unitPrName??&&myn.unitPrName!="空">
+                                                            ${myn.price!}/${myn.unitPrName!}
+                                                        </#if>
+                                                        <br/>
+                                                        <#if myn.unitPeName??&&myn.unitPeName!="空">
+<#--                                                    <#else >-->
+                                                            ${myn.priceSe!}/${myn.unitPeName!}
+                                                        </#if>
+<#--                                                    </#if>-->
+<#--                                                </#if>-->
                                             </td>
 <#--                                            <td>-->
 <#--                                                <#if myn.unitType??>-->
@@ -181,25 +186,35 @@
                                                 <input data-id="${myn.id}" type="checkbox" class="state" name="state" <#if myn.state==1>checked</#if>/>
                                             </td>
                                             <td>
-                                                <#if myn.unitType??>
-                                                    <#if myn.unitType==1>
-                                                        ${myn.tradePrice!}
-                                                    <#else >
-                                                        ${myn.tradePriceSe!}
-                                                    </#if>
-                                                </#if>
+<#--                                                <#if myn.unitType??>-->
+<#--                                                    <#if myn.unitType==1>-->
+                                                        <#if myn.unitPrName??&&myn.unitPrName!="空">
+                                                            ${myn.tradePrice!}/${myn.unitPrName!}
+                                                        </#if>
+                                                        <br/>
+<#--                                                    <#else >-->
+                                                        <#if myn.unitPeName??&&myn.unitPeName!="空">
+                                                            ${myn.tradePriceSe!}/${myn.unitPeName!}
+                                                        </#if>
+<#--                                                    </#if>-->
+<#--                                                </#if>-->
                                             </td>
                                             <td>
                                                 <input data-id="${myn.id}" type="checkbox" class="retailState" name="retailState" <#if myn.retailState==1>checked</#if>/>
                                             </td>
                                             <td>
-                                                <#if myn.unitType??>
-                                                    <#if myn.unitType==1>
-                                                        ${myn.retailPrice!}
-                                                    <#else >
-                                                        ${myn.retailPriceSe!}
-                                                    </#if>
-                                                </#if>
+<#--                                                <#if myn.unitType??>-->
+<#--                                                    <#if myn.unitType==1>-->
+                                                        <#if myn.unitPrName??&&myn.unitPrName!="空">
+                                                            ${myn.retailPrice!}/${myn.unitPrName!}
+                                                        </#if>
+                                                        <br/>
+<#--                                                    <#else >-->
+                                                        <#if myn.unitPrName??&&myn.unitPeName!="空">
+                                                            ${myn.retailPriceSe!}/${myn.unitPeName!}
+                                                        </#if>
+<#--                                                    </#if>-->
+<#--                                                </#if>-->
                                             </td>
                                             <td>
                                                 <a href="javascript:openSupplierList('${myn.id}','${myn.siid!}');">

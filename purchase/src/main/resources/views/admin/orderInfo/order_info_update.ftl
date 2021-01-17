@@ -41,23 +41,23 @@
                                                                     </#if>
                                                                     <span class="red price_unit">
                                                                         <span class="show-price">
-                                                                            <#if myn.unitType==1>
+<#--                                                                            <#if myn.unitType==1>-->
                                                                                     ${myn.price}
-                                                                                <#else >
-                                                                                    ${myn.priceSe}
-                                                                            </#if>
+<#--                                                                                <#else >-->
+<#--                                                                                    ${myn.priceSe}-->
+<#--                                                                            </#if>-->
                                                                         </span>P/
                                                                         <span class="show-unit">
-                                                                            <#if myn.unitType==1>
+<#--                                                                            <#if myn.unitType==1>-->
                                                                                 ${myn.unit}
-                                                                            <#else >
-                                                                                ${myn.unitSe}
-                                                                            </#if>
+<#--                                                                            <#else >-->
+<#--                                                                                ${myn.unitSe}-->
+<#--                                                                            </#if>-->
                                                                         </span>
-                                                                        <select class="unit-sel">
-                                                                            <option value="1" <#if myn.unitType==1>selected="selected"</#if>>主</option>
-                                                                            <option value="2" <#if myn.unitType==2>selected="selected"</#if>>辅</option>
-                                                                        </select>
+<#--                                                                        <select class="unit-sel">-->
+<#--                                                                            <option value="1" <#if myn.unitType==1>selected="selected"</#if>>主</option>-->
+<#--                                                                            <option value="2" <#if myn.unitType==2>selected="selected"</#if>>辅</option>-->
+<#--                                                                        </select>-->
                                                                     </span>
                                                                     <br>
                                                                     <span class="supplier_name">供应商：${myn.supplierName}</span>
@@ -158,26 +158,26 @@
             var unitType = orderDom.attr("unit-type");
             var price = orderDom.attr("price");
             price = parseFloat(price);
-            var priceSe = orderDom.attr("price-se");
-            priceSe = parseFloat(priceSe);
+            // var priceSe = orderDom.attr("price-se");
+            // priceSe = parseFloat(priceSe);
             var unit = orderDom.attr("unit");
-            var unitSe = orderDom.attr("unit-se");
+            // var unitSe = orderDom.attr("unit-se");
 
             var number = orderDom.find(".goods-number").val();
             number = parseInt(number);
             var totalPrice = (price*number);
-            if(unitType==2){
-                totalPrice = (priceSe*number);
-            }
+            // if(unitType==2){
+            //     totalPrice = (priceSe*number);
+            // }
 
             var orderInfo = {};
             orderInfo["oiid"] = oiid;
             orderInfo["giid"] = goodsId;
             orderInfo["siid"] = siid;
             orderInfo["price"] = price;
-            orderInfo["priceSe"] = priceSe;
+            // orderInfo["priceSe"] = priceSe;
             orderInfo["unit"] = unit;
-            orderInfo["unitSe"] = unitSe;
+            // orderInfo["unitSe"] = unitSe;
             orderInfo["unitType"] = unitType;
             orderInfo["number"] = number;
             orderInfo["totalPrice"] = totalPrice;
@@ -320,9 +320,9 @@
             totalNumber+=number;
 
             var price = orderDom.attr("price");
-            if(unitType==2){
-                price = orderDom.attr("price-se");
-            }
+            // if(unitType==2){
+            //     price = orderDom.attr("price-se");
+            // }
             price = parseFloat(price);
             totalPrice+=(price*number);
         }

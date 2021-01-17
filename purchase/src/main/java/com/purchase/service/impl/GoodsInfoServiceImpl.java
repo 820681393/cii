@@ -29,4 +29,9 @@ public class GoodsInfoServiceImpl extends MyBatisJapService<IGoodsInfoDao, Goods
     public List<GoodsInfo> findByState(Integer state) {
         return jpaFindByMany(state);
     }
+
+    @Override
+    public List<GoodsInfo> findByGoid(Integer goid) {
+        return jpaFindByMany(goid);
+    }
 }

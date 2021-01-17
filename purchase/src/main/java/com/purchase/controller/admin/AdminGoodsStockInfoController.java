@@ -189,9 +189,11 @@ public class AdminGoodsStockInfoController {
                     afterGoodsInfo.setId(goodsStockInfoDetail.getGiid());
                     if(goodsStockInfoDetail.getUnitType()==1){
                         afterGoodsInfo.setStock(afterStock);
+                        afterGoodsInfo.setPrice(goodsStockInfoDetail.getPrice());
                     }
                     if(goodsStockInfoDetail.getUnitType()==2){
                         afterGoodsInfo.setStockSe(afterStock);
+                        afterGoodsInfo.setPriceSe(goodsStockInfoDetail.getPrice());
                     }
                     updateGoodsInfoList.add(afterGoodsInfo);
                 }

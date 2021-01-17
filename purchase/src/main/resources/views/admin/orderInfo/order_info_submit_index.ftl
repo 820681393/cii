@@ -202,7 +202,7 @@
                         <div class="panel panel-flat">
                             <div class="panel-heading">
                                 <h6 class="panel-title">
-                                    下单列表
+                                    补货商品列表
                                     <a id="clear-order" style="float: right;font-size: 13px;">
                                         <i class="icon-bin"></i>
                                         全部清除

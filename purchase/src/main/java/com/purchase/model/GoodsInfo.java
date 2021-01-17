@@ -58,10 +58,10 @@ public class GoodsInfo extends PageInfoModel implements Serializable  {
     private Date createTime;
 
     @ApiModelProperty(value = "采购成本价(主)")
-    private Double price;
+    private BigDecimal price;
 
     @ApiModelProperty(value = "采购成本价(辅)")
-    private Double priceSe;
+    private BigDecimal priceSe;
 
     @ApiModelProperty(value = "商品应用单位类型：1-主单位，2-辅单位")
     private Integer unitType;
@@ -76,10 +76,10 @@ public class GoodsInfo extends PageInfoModel implements Serializable  {
     private Integer uiidPe;
 
     @ApiModelProperty(value = "主单位值")
-    private Double unitPrVal;
+    private BigDecimal unitPrVal;
 
     @ApiModelProperty(value = "辅单位值")
-    private Double unitPeVal;
+    private BigDecimal unitPeVal;
 
     @ApiModelProperty(value = "商品利润分成率")
     private BigDecimal percentage;
@@ -111,8 +111,11 @@ public class GoodsInfo extends PageInfoModel implements Serializable  {
     @ApiModelProperty(value = "库存(辅)")
     private Integer stockSe;
 
-    @ApiModelProperty(value = "安全库存")
+    @ApiModelProperty(value = "安全库存(主)")
     private Integer safeStock;
+
+    @ApiModelProperty(value = "安全库存(辅)")
+    private Integer safeStockSe;
 
     @ApiModelProperty(value = "一级分类名称")
     @TableField(exist = false)
