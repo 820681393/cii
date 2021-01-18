@@ -229,6 +229,30 @@ public class AdminGoodsInfoController {
         return "/admin/goodsInfo/goods_info_update";
     }
 
+    @RequestMapping(value = "/goodsInfo/updateSafeStock")
+    @ApiOperation(value = "进入修改商品安全库存")
+    public String updateSafeStock(Model model, HttpServletRequest request,Integer id){
+        GoodsInfo goodsInfo = iGoodsInfoService.getById(id);
+        List<UnitInfo> unitInfoList =iUnitInfoService.list();
+        for(UnitInfo unitInfo : unitInfoList){
+            if(unitInfo.getId().equals(goodsInfo.getUiidPr())){
+                goodsInfo.setUnitPrName(unitInfo.getName());
+            }
+            if(unitInfo.getId().equals(goodsInfo.getUiidPe())){
+                goodsInfo.setUnitPeName(unitInfo.getName());
+            }
+        }
+        model.addAttribute("goodsInfo",goodsInfo);
+        return "/admin/goodsStockInfo/goods_stock_update";
+    }
+
+    @RequestMapping(value = "/goodsInfo/updateSafeStockIng")
+    @ApiOperation(value = "修改商品安全库存")
+    public String updateSafeStockIng(Model model, HttpServletRequest request,GoodsInfo goodsInfo){
+        iGoodsInfoService.updateById(goodsInfo);
+        return "redirect:/admin/goodsInfo/stockIndex";
+    }
+
     @RequestMapping(value = "/goodsInfo/updateGoodsInfo")
     @ResponseBody
     @ApiOperation(value = "异步修改商品信息")

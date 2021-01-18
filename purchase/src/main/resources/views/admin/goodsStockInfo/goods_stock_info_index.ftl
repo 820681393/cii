@@ -115,7 +115,7 @@
                                             <tr class="border-top-primary">
                                                 <td>
                                                     <#if myn.imgUrl??>
-                                                        <img onclick="myImageOpen(this)" width="100px" src="${aliyunOos!}${myn.imgUrl!}"/>
+                                                        <img onclick="myImageOpen(this)" width="80px" src="${aliyunOos!}${myn.imgUrl!}"/>
                                                     <#else >
                                                         <img style="cursor: default" width="100px" src="/statics/admin/assets/images/default_goods.jpg"/>
                                                     </#if>
@@ -156,6 +156,9 @@
                                                     <span style="color: ${safeColor}"><i class="${icon}"></i>${myn.safeStockSe!}(辅)</span>
                                                     <a class="collapsed add-goods" id="${myn.id!}" unitType="2" price="${myn.priceSe!}" unit="${myn.unitPeName!}"  goid="${myn.goid!}" gtid="${myn.gtid!}" name="${myn.chName!}" en_name="${myn.enName!}" supplier_name="${myn.supplierName!}" supplier_address="${myn.supplierAddress!}" siid="${myn.siid}">
                                                         <i class="icon-plus2"></i>补货
+                                                    </a>
+                                                    <a class="collapsed" onclick="updateGoodsInfo(${myn.id})">
+                                                        <i class="icon-pencil3"></i>
                                                     </a>
                                                 </td>
                                                 <td>
@@ -260,6 +263,29 @@
 </div>
 </body>
 <script>
+    function updateGoodsInfo(id){
+        $.ajax({
+            url:"/admin/goodsInfo/updateSafeStock",
+            data:{
+                id:id
+            },
+            headers: {
+                'httpType': "HTML",
+            },
+            type:"get",
+            async:true,
+            success:function (data) {
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    anim: 1,
+                    shadeClose: true,
+                    content: data
+                });
+            }
+        })
+    }
     $("#clear-order").click(function(){
         $(".order-list").html("");
         sumGoodsTotalNumberAndPrice();

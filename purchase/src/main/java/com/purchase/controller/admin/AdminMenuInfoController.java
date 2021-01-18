@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -34,6 +36,7 @@ public class AdminMenuInfoController {
     @ApiOperation(value = "查询权限信息")
     public String index(Model model, HttpServletRequest request){
         List<MenuInfo> menuInfos=iMenuInfoService.list();
+        menuInfos.sort((x, y) -> Double.compare(x.getSort(), y.getSort()));
         List<MenuInfo> menuOneInfos=new ArrayList<>();
         for (MenuInfo menuInfo : menuInfos) {
             if(menuInfo.getMiid().equals(0)){

@@ -73,6 +73,7 @@ public class AdminLoginRequestInterceptor extends HandlerInterceptorAdapter {
             miids.add(roleToMenu.getMiid());
         }
         List<MenuInfo> menuInfos=iMenuInfoService.listByIds(miids);
+        menuInfos.sort((x, y) -> Double.compare(x.getSort(), y.getSort()));
         List<MenuInfo> menuOneInfos=new ArrayList<>();
         for (MenuInfo menuInfo : menuInfos) {
             if(menuInfo.getMiid().equals(0)){

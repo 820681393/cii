@@ -50,12 +50,12 @@
 <#--                                    </div>-->
                                 </div>
                                 <div class="form-group clearfix">
-                                    <div class="col-lg-3">
-                                        <select id="sel-show-mode" class="form-control">
-                                            <option value="img-show">图标显示</option>
-                                            <option value="txt-show">文字显示</option>
-                                        </select>
-                                    </div>
+<#--                                    <div class="col-lg-3">-->
+<#--                                        <select id="sel-show-mode" class="form-control">-->
+<#--                                            <option value="img-show">图标显示</option>-->
+<#--                                            <option value="txt-show">文字显示</option>-->
+<#--                                        </select>-->
+<#--                                    </div>-->
                                     <div class="col-lg-3">
                                         <select id="goid" class="form-control">
                                             <option value="all">选择分类</option>
@@ -82,7 +82,7 @@
                                     <div class="col-lg-12 goods-list">
                                         <#assign index=0>
                                         <#if goodsInfoList??>
-                                            <div id="img-show" style="display: none">
+                                            <div id="img-show" >
                                             <#list goodsInfoList as myn>
                                                 <#assign index++>
                                                 <#if myn.siid??>
@@ -122,49 +122,49 @@
                                                 </#if>
                                             </#list>
                                             </div>
-                                            <div id="txt-show" class="table-responsive" style="display: none">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr class="border-bottom-danger">
-                                                        <th>编号</th>
-                                                        <th>名称</th>
-                                                        <th>单位</th>
-                                                        <th>价格</th>
-                                                        <th>供应商</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <#if goodsInfoList??>
-                                                        <#list goodsInfoList as myn>
-                                                            <tr class="goods-ct"  id="${myn.id!}" unit-type="${myn.unitType!}" price="<#if myn.price??>${myn.price!}<#else >0</#if>" unit="${myn.unitPrName!}" price-se="<#if myn.priceSe??>${myn.priceSe!}<#else >0</#if>" unit-se="${myn.unitPeName!}" goid="${myn.goid!}" gtid="${myn.gtid!}" name="${myn.chName!}" en_name="${myn.enName!}" supplier_name="${myn.supplierName!}" supplier_address="${myn.supplierAddress!}" siid="${myn.siid}" class="hidden">
-                                                                <td>
-<#--                                                                    <span class="sel-number">0</span>-->
-                                                                    ${myn.code!}
-                                                                </td>
-                                                                <td>${myn.chName!}<br/>(${myn.enName!})</td>
-                                                                <td>
-                                                                    <#if myn.unitType==1>
-                                                                        ${myn.unitPrName!}(主)
-                                                                    <#else >
-                                                                        ${myn.unitPeName!}(辅)
-                                                                    </#if>
-                                                                </td>
-                                                                <td>
-                                                                    <#if myn.unitType==1>
-                                                                        <#if myn.price??>${myn.price!}<#else >0</#if>
-                                                                    <#else >
-                                                                        <#if myn.priceSe??>${myn.priceSe!}<#else >0</#if>
-                                                                    </#if>
-                                                                </td>
-                                                                <td>
-                                                                    ${myn.supplierName!}
-                                                                </td>
-                                                            </tr>
-                                                        </#list>
-                                                    </#if>
-                                                </tbody>
-                                            </table>
-                                            </div>
+<#--                                            <div id="txt-show" class="table-responsive" style="display: none">-->
+<#--                                            <table class="table">-->
+<#--                                                <thead>-->
+<#--                                                    <tr class="border-bottom-danger">-->
+<#--                                                        <th>编号</th>-->
+<#--                                                        <th>名称</th>-->
+<#--                                                        <th>单位</th>-->
+<#--                                                        <th>价格</th>-->
+<#--                                                        <th>供应商</th>-->
+<#--                                                    </tr>-->
+<#--                                                </thead>-->
+<#--                                                <tbody>-->
+<#--                                                    <#if goodsInfoList??>-->
+<#--                                                        <#list goodsInfoList as myn>-->
+<#--                                                            <tr class="goods-ct"  id="${myn.id!}" unit-type="${myn.unitType!}" price="<#if myn.price??>${myn.price!}<#else >0</#if>" unit="${myn.unitPrName!}" price-se="<#if myn.priceSe??>${myn.priceSe!}<#else >0</#if>" unit-se="${myn.unitPeName!}" goid="${myn.goid!}" gtid="${myn.gtid!}" name="${myn.chName!}" en_name="${myn.enName!}" supplier_name="${myn.supplierName!}" supplier_address="${myn.supplierAddress!}" siid="${myn.siid}" class="hidden">-->
+<#--                                                                <td>-->
+<#--&lt;#&ndash;                                                                    <span class="sel-number">0</span>&ndash;&gt;-->
+<#--                                                                    ${myn.code!}-->
+<#--                                                                </td>-->
+<#--                                                                <td>${myn.chName!}<br/>(${myn.enName!})</td>-->
+<#--                                                                <td>-->
+<#--                                                                    <#if myn.unitType==1>-->
+<#--                                                                        ${myn.unitPrName!}(主)-->
+<#--                                                                    <#else >-->
+<#--                                                                        ${myn.unitPeName!}(辅)-->
+<#--                                                                    </#if>-->
+<#--                                                                </td>-->
+<#--                                                                <td>-->
+<#--                                                                    <#if myn.unitType==1>-->
+<#--                                                                        <#if myn.price??>${myn.price!}<#else >0</#if>-->
+<#--                                                                    <#else >-->
+<#--                                                                        <#if myn.priceSe??>${myn.priceSe!}<#else >0</#if>-->
+<#--                                                                    </#if>-->
+<#--                                                                </td>-->
+<#--                                                                <td>-->
+<#--                                                                    ${myn.supplierName!}-->
+<#--                                                                </td>-->
+<#--                                                            </tr>-->
+<#--                                                        </#list>-->
+<#--                                                    </#if>-->
+<#--                                                </tbody>-->
+<#--                                            </table>-->
+<#--                                            </div>-->
                                         </#if>
                                     </div>
                                 </div>
@@ -276,12 +276,12 @@
      * 事件初始化
      */
     function eventInit(){
-        $("#sel-show-mode").change(function(){
-           var mode = $(this).val();
-           $("#img-show,#txt-show").hide();
-           $("#"+mode).show();
-        });
-        $("#sel-show-mode").change();
+        // $("#sel-show-mode").change(function(){
+        //    var mode = $(this).val();
+        //    $("#img-show,#txt-show").hide();
+        //    $("#"+mode).show();
+        // });
+        // $("#sel-show-mode").change();
 
         $("#submit-order").click(function(){
             var orderList = $(".order-list>li");
@@ -459,15 +459,15 @@
                             <tbody>
                                 <tr id="`+id+`" unit-type="1" price="`+price+`">
                                     <td class="name">`+name+"<br/>"+en_name+`</td>
-                                    <td class="unit">`+unit+`</td>
-                                    <td class="price"><input type="number" class="form-control"/></td>
+                                    <td class="unit">`+unit+`(主)</td>
+                                    <td class="price"><input type="number" class="form-control" <#if mode==2>value="`+price+`" disabled</#if>/></td>
                                     <td class="stock">`+stock+`</td>
-                                    <td><input type="number" style="width:88px;" class="stock-number form-control"/></td>
+                                    <td><input type="number" style="width:88px;" class="stock-number form-control" /></td>
                                 </tr>
                                 <tr id="`+id+`" unit-type="2" price="`+priceSe+`">
                                     <td class="name">`+name+"<br/>"+en_name+`</td>
-                                    <td class="unit">`+unitSe+`</td>
-                                    <td class="price"><input type="number" class="form-control"/></td>
+                                    <td class="unit">`+unitSe+`(辅)</td>
+                                    <td class="price"><input type="number" class="form-control" <#if mode==2>value="`+priceSe+`" disabled</#if>/></td>
                                     <td class="stock">`+stockSe+`</td>
                                     <td><input type="number" style="width:88px;" class="stock-number form-control"/></td>
                                 </tr>

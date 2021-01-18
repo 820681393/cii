@@ -29,7 +29,7 @@
                                 <th>盘点库存</th>
                                 <th>货品差额</th>
                                 <th>盘点员</th>
-                                <th>修正</th>
+                                <th <#if goodsCheckTask.state!=2>style="display: none;"</#if>>修正</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -47,9 +47,17 @@
                                         <td>
                                             <input type="number" class="numberSe form-control" value="${myn.numberSe!}" disabled>
                                         </td>
-                                        <td>${myn.diffAmount!}</td>
-                                        <td>${goodsCheckTask.receiveAdminName!}</td>
                                         <td>
+                                            <#if myn.diffAmount??>
+                                                <#if myn.diffAmount !=0>
+                                                    <span style="color: red">${myn.diffAmount!}</span>
+                                                    <#else >
+                                                        ${myn.diffAmount!}
+                                                </#if>
+                                            </#if>
+                                        </td>
+                                        <td>${goodsCheckTask.receiveAdminName!}</td>
+                                        <td <#if goodsCheckTask.state!=2>style="display: none;"</#if>>
                                             <div onclick="ulockUpdate('${myn.id}')" style="color:#2196f3;float: left;margin-left: 10px;">
                                                 <i class="icon-pencil3" id="update${myn.id!}" onmousemove="layerTips('修改','update${myn.id!}')"></i>
                                             </div>
@@ -77,11 +85,17 @@
                                         </#if>
                                     </td>
                                 </tr>
-                                <#if goodsCheckTask.state==2||userAdmin.id==1||userAdmin.id==2||userAdmin.id==7>
+                                <#if goodsCheckTask.state==2>
                                     <tr>
                                         <td colspan="10">
                                             <input type="text" id="remark" class="form-control" placeholder="备注" value="${goodsCheckTask.remark!}" style="margin-bottom: 10px;">
                                             <button id="confirm" class="btn bg-blue btn-block">确认盘点结果</button>
+                                        </td>
+                                    </tr>
+                                    <#else >
+                                    <tr>
+                                        <td colspan="10">
+                                            备注：${goodsCheckTask.remark!}
                                         </td>
                                     </tr>
                                 </#if>

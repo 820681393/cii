@@ -1,6 +1,8 @@
 package com.purchase.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.mybaits.jpa.annotation.PageQuery;
+import com.mybaits.jpa.jpaEnum.QueryOrderType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -49,6 +51,9 @@ public class MenuInfo extends PageInfoModel implements Serializable  {
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
+
+    @ApiModelProperty(value = "菜单顺序号")
+    private Integer sort;
 
 
     @ApiModelProperty(value = "下级菜单集合")
