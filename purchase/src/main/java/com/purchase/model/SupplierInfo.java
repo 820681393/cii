@@ -8,6 +8,8 @@ import com.purchase.dao.ISupplierInfoDao;
 import lombok.Data;
 import com.purchase.utils.PageInfoModel;
 import com.baomidou.mybatisplus.annotation.IdType;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 
@@ -51,5 +53,14 @@ public class SupplierInfo extends PageInfoModel implements Serializable  {
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
+
+    @ApiModelProperty(value = "营业时间")
+    private Date businessTime;
+
+    @ApiModelProperty(value = "币种：CNY USD PHP")
+    private String currencyType;
+
+    @ApiModelProperty(value = "今日汇率")
+    private BigDecimal exchangeRate;
 
 }

@@ -14,27 +14,27 @@
         <#include "../common/menu.ftl"/>
         <div class="content-wrapper">
             <div class="content">
-                <div class="panel">
-                    <div class="panel-heading bg-primary">
-                        <h6 class="panel-title">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion-styled" href="#accordion-styled-group3">时时汇率信息</a>
-                        </h6>
-                    </div>
-                    <form action="/admin/supplierInfo/updateExchangeRate" method="post">
-                        <div id="accordion-styled-group3" class="panel-collapse">
-                            <div class="panel-body">
-                                <div class="row" style="margin-top: 10px;">
-                                    <div class="col-xs-3">
-                                        <input type="text"  name="exchangeRate" value="${exchangeRate!}" class="form-control" placeholder="汇率">
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <button type="submit" class="btn btn-primary" style="width: 158px;display: inline-block">修改汇率</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+<#--                <div class="panel">-->
+<#--                    <div class="panel-heading bg-primary">-->
+<#--                        <h6 class="panel-title">-->
+<#--                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion-styled" href="#accordion-styled-group3">时时汇率信息</a>-->
+<#--                        </h6>-->
+<#--                    </div>-->
+<#--                    <form action="/admin/supplierInfo/updateExchangeRate" method="post">-->
+<#--                        <div id="accordion-styled-group3" class="panel-collapse">-->
+<#--                            <div class="panel-body">-->
+<#--                                <div class="row" style="margin-top: 10px;">-->
+<#--                                    <div class="col-xs-3">-->
+<#--                                        <input type="text"  name="exchangeRate" value="${exchangeRate!}" class="form-control" placeholder="汇率">-->
+<#--                                    </div>-->
+<#--                                    <div class="col-xs-3">-->
+<#--                                        <button type="submit" class="btn btn-primary" style="width: 158px;display: inline-block">修改汇率</button>-->
+<#--                                    </div>-->
+<#--                                </div>-->
+<#--                            </div>-->
+<#--                        </div>-->
+<#--                    </form>-->
+<#--                </div>-->
                 <div class="panel-heading bg-primary">
                     <h6 class="panel-title">
                         <a class="collapsed" data-toggle="collapse" data-parent="#accordion-styled" href="#accordion-styled-group3">供应商库列表</a>
@@ -50,26 +50,35 @@
                             <thead>
                                 <tr class="border-bottom-danger">
                                     <th>名称</th>
-                                    <th>电话</th>
-                                    <th>地址</th>
                                     <th>联系人名称</th>
                                     <th>微信号</th>
+                                    <th>电话</th>
+                                    <th>地址</th>
                                     <th>供应状态</th>
+                                    <th>营业时间</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
+                            <col style="width: 20%" />
+                            <col style="width: 20%" />
+                            <col style="width: 20%" />
+                            <col style="width: 20%" />
+                            <col style="width: 20%" />
+                            <col style="width: 20%" />
+                            <col style="width: 20%" />
+                            <col style="width: 20%" />
                             <#if supplierInfoList??>
                                 <#list supplierInfoList as myn>
                                     <tr class="border-top-primary">
                                         <td>${myn.name!}</td>
+                                        <td>${myn.linkUser!}</td>
+                                        <td>${myn.wxNumber!}</td>
                                         <td>
 <#--                                            ${myn.tel!}-->
                                             ${myn.tel?replace("/","<br>")}
                                         </td>
                                         <td>${myn.address!}</td>
-                                        <td>${myn.linkUser!}</td>
-                                        <td>${myn.wxNumber!}</td>
                                         <td>
                                             <#if myn.state==1>
                                                 营业
@@ -77,15 +86,16 @@
                                                 停业
                                             </#if>
                                         </td>
+                                        <td>${myn.businessTime!}</td>
                                         <td>
                                             <div onclick="location.href='/admin/supplierInfo/update?id=${myn.id}'" style="color:#2196f3;float: left;margin-left: 10px;">
                                                 <i class="icon-pencil3" id="update${myn.id!}" onmousemove="layerTips('修改','update${myn.id!}')"></i>
                                             </div>
-                                            <div onclick="getGoodsTypeAjax('${myn.id!}')" style="color:#2196f3;float: left;margin-left: 10px;">
-                                                <i class="icon-plus2" id="insert${myn.id!}" onmousemove="layerTips('新增供应商品','update${myn.id!}')"></i>
-                                            </div>
-                                            <div id="detail2" onclick="getGoodsTypeInfoAjax('${myn.id!}')" style="color:blue;float: left;margin-left: 10px;">
-                                                <i class="icon-eye" id="role${myn.id!}" onmousemove="layerTips('查看价格','role${myn.id!}')"></i>
+<#--                                            <div onclick="getGoodsTypeAjax('${myn.id!}')" style="color:#2196f3;float: left;margin-left: 10px;">-->
+<#--                                                <i class="icon-plus2" id="insert${myn.id!}" onmousemove="layerTips('新增供应商品','insert${myn.id!}')"></i>-->
+<#--                                            </div>-->
+                                            <div id="detail2" onclick="getGoodsInfoAjax('${myn.id!}')" style="color:blue;float: left;margin-left: 10px;">
+                                                <i class="icon-eye" id="look${myn.id!}" onmousemove="layerTips('商品价格比对','look${myn.id!}')"></i>
                                             </div>
                                         </td>
                                     </tr>
@@ -97,7 +107,7 @@
                 </div>
                 <#include "../common/foot.ftl"/>
             </div>
-            <div id="goodsTypeInfo">
+            <div id="goodsInfo">
 
             </div>
         </div>
@@ -105,9 +115,41 @@
 </div>
 </body>
 <script>
-    function getGoodsTypeAjax(id) {
+    // function getGoodsTypeAjax(id) {
+    //     $.ajax({
+    //         url:"/admin/supplierInfo/getGoodsTypeAjax",
+    //         data:{
+    //             id:id
+    //         },
+    //         headers: {
+    //             'httpType': "HTML",
+    //         },
+    //         type:"get",
+    //         async:true,
+    //         success:function (data) {
+    //             $('#goodsTypeInfo').html(data);
+    //         }
+    //     })
+    // }
+    // function getGoodsTypeInfoAjax(id) {
+    //     $.ajax({
+    //         url:"/admin/supplierInfo/getGoodsTypeInfoAjax",
+    //         data:{
+    //             id:id
+    //         },
+    //         headers: {
+    //             'httpType': "HTML",
+    //         },
+    //         type:"get",
+    //         async:true,
+    //         success:function (data) {
+    //             $('#goodsTypeInfo').html(data);
+    //         }
+    //     })
+    // }
+    function getGoodsInfoAjax(id) {
         $.ajax({
-            url:"/admin/supplierInfo/getGoodsTypeAjax",
+            url:"/admin/supplierInfo/getGoodsInfoAjax",
             data:{
                 id:id
             },
@@ -117,23 +159,7 @@
             type:"get",
             async:true,
             success:function (data) {
-                $('#goodsTypeInfo').html(data);
-            }
-        })
-    }
-    function getGoodsTypeInfoAjax(id) {
-        $.ajax({
-            url:"/admin/supplierInfo/getGoodsTypeInfoAjax",
-            data:{
-                id:id
-            },
-            headers: {
-                'httpType': "HTML",
-            },
-            type:"get",
-            async:true,
-            success:function (data) {
-                $('#goodsTypeInfo').html(data);
+                $('#goodsInfo').html(data);
             }
         })
     }

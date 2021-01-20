@@ -32,18 +32,6 @@
                                             </label>
                                         </div>
                                         <div class="col-xs-12" style="margin-top: 20px;">
-                                            <label class="col-xs-3">供应商电话</label>
-                                            <label class="col-xs-9">
-                                                <input type="text" name="tel" class="form-control" placeholder="供应商电话">
-                                            </label>
-                                        </div>
-                                        <div class="col-xs-12" style="margin-top: 20px;">
-                                            <label class="col-xs-3">供应商地址</label>
-                                            <label class="col-xs-9">
-                                                <input type="text" name="address" class="form-control" placeholder="供应商地址">
-                                            </label>
-                                        </div>
-                                        <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-3">联系人名称</label>
                                             <label class="col-xs-9">
                                                 <input type="text" name="linkUser" class="form-control" placeholder="联系人名称">
@@ -56,6 +44,18 @@
                                             </label>
                                         </div>
                                         <div class="col-xs-12" style="margin-top: 20px;">
+                                            <label class="col-xs-3">供应商电话</label>
+                                            <label class="col-xs-9">
+                                                <input type="text" name="tel" class="form-control" placeholder="供应商电话">
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-12" style="margin-top: 20px;">
+                                            <label class="col-xs-3">供应商地址</label>
+                                            <label class="col-xs-9">
+                                                <input type="text" name="address" class="form-control" placeholder="供应商地址">
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-3">供应状态</label>
                                             <label class="col-xs-9">
                                                 <select class="form-control" name="state" >
@@ -64,6 +64,28 @@
                                                 </select>
                                             </label>
                                         </div>
+                                        <div class="col-xs-12" style="margin-top: 20px;">
+                                            <label class="col-xs-3">营业时间</label>
+                                            <label class="col-xs-9">
+                                                <input type="text" name="businessTime" class="form-control" placeholder="营业时间">
+                                            </label>
+                                        </div>
+<#--                                        <div class="col-xs-12" style="margin-top: 20px;">-->
+<#--                                            <label class="col-xs-3">币种</label>-->
+<#--                                            <label class="col-xs-9">-->
+<#--                                                <select name="currencyType" class="form-control">-->
+<#--                                                    <option value="CNY">CNY</option>-->
+<#--                                                    <option value="USD">USD</option>-->
+<#--                                                    <option value="PHP">PHP</option>-->
+<#--                                                </select>-->
+<#--                                            </label>-->
+<#--                                        </div>-->
+<#--                                        <div class="col-xs-12" style="margin-top: 20px;">-->
+<#--                                            <label class="col-xs-3">今日汇率</label>-->
+<#--                                            <label class="col-xs-9">-->
+<#--                                                <input type="text" name="exchangeRate" class="form-control" placeholder="今日汇率">-->
+<#--                                            </label>-->
+<#--                                        </div>-->
                                         <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-12"><button type="submit" class="btn btn-primary" style="width: 100%;">新增</button></label>
                                         </div>
