@@ -213,8 +213,9 @@ public class AdminGoodsInfoController {
 
     @RequestMapping(value = "/goodsInfo/update")
     @ApiOperation(value = "进入修改商品")
-    public String update(Model model, HttpServletRequest request,Integer id){
+    public String update(Model model, HttpServletRequest request,Integer id,Integer pageNum){
         GoodsInfo goodsInfo = iGoodsInfoService.getById(id);
+        goodsInfo.setPageNum(pageNum);
         List<GoodsOneType> goodsOneTypeList =iGoodsOneTypeService.list();
         List<GoodsTowType> goodsTowTypeList =iGoodsTowTypeService.list();
         List<SupplierInfo> supplierInfoList =iSupplierInfoService.list();
@@ -278,7 +279,7 @@ public class AdminGoodsInfoController {
             goodsInfo.setCode("CAIGO"+code);
             iGoodsInfoService.updateById(goodsInfo);
         }
-        return "redirect:/admin/goodsInfo/index";
+        return "redirect:/admin/goodsInfo/index?pageNum="+goodsInfo.getPageNum();
     }
 
     @RequestMapping(value = "/goodsInfo/delete")

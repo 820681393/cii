@@ -30,7 +30,7 @@
     <#include "../common/menu.ftl"/>
         <div class="content-wrapper">
             <div class="content">
-                <form action="${basePath}/admin/goodsInfo/updateIng" method="post" enctype="multipart/form-data">
+                <form action="${basePath}/admin/goodsInfo/updateIng?pageNum=${goodsInfo.pageNum}" method="post" enctype="multipart/form-data">
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
                         <div class="panel">
@@ -87,23 +87,26 @@
                                         <div class="col-xs-12" style="margin-top: 20px;">
                                             <label class="col-xs-2">采购成本</label>
                                             <label class="col-xs-4" style="color:red;">
-<#--                                                <input style="width: 141px;display: inline-block;" type="number" id="price" name="price" value="${goodsInfo.price!}" class="form-control" placeholder="参考价格(主)">-->
-                                                ${goodsInfo.price!}P<span class="unit-1"></span>
+                                                <input style="width: 115px;display: inline-block;" type="number" id="price" name="price" value="${goodsInfo.price!}" class="form-control" placeholder="采购成本(主)">
+<#--                                                <span id="price">${goodsInfo.price!}</span>-->
+                                                P<span class="unit-1"></span>
                                                 &nbsp;
 <#--                                                <input style="width: 141px;display: inline-block;" type="number" id="priceSe" name="priceSe" value="${goodsInfo.priceSe!}" class="form-control" placeholder="参考价格(辅)">-->
 <#--                                                <a class="btn btn-primary" id="conversion">换算</a>-->
                                             </label>
-                                            <label class="col-xs-4" style="color:red;">
-                                                ${goodsInfo.priceSe!}P<span class="unit-2"></span>
+                                            <label class="col-xs-5" style="color:red;">
+                                                <input style="width: 115px;display: inline-block;" type="number" id="priceSe" name="priceSe" value="${goodsInfo.priceSe!}" class="form-control" placeholder="采购成本(辅)">
+<#--                                                <span id="priceSe">${goodsInfo.priceSe!}</span>-->
+                                                P<span class="unit-2"></span>
                                             </label>
                                         </div>
                                         <div class="col-xs-12 pf-ct" style="margin-top: 20px;">
                                             <label class="col-xs-2">批发价格<i class="icon-price-tags"></i></label>
                                             <label class="col-xs-4">
-                                                ${goodsInfo.tradePrice!}P<span class="unit-1"></span>
+                                                <span class="tradePrice">${goodsInfo.tradePrice!}</span>P<span class="unit-1"></span>
                                             </label>
                                             <label class="col-xs-4">
-                                                ${goodsInfo.tradePriceSe!}P<span class="unit-2"></span>
+                                                <span class="tradePriceSe">${goodsInfo.tradePriceSe!}</span>P<span class="unit-2"></span>
                                             </label>
                                             <div class="col-xs-12">
                                                 <label class="col-xs-2"></label>
@@ -124,16 +127,17 @@
                                                 <label class="col-xs-5">
                                                     <input style="width: 115px;display: inline-block;" type="number" id="tradePriceSe" name="tradePriceSe" value="${goodsInfo.tradePriceSe!}" class="form-control" placeholder="批发价格(辅)">
                                                     P<span class="unit-2"></span>
+                                                    <a class="btn btn-primary" id="confirm-pf-price">确定</a>
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 ls-ct" style="margin-top: 20px;">
                                             <label class="col-xs-2">零售价格<i class="icon-price-tag2"></i></label>
                                             <label class="col-xs-4">
-                                                ${goodsInfo.retailPrice!}P<span class="unit-1"></span>
+                                                <span class="retailPrice">${goodsInfo.retailPrice!}</span>P<span class="unit-1"></span>
                                             </label>
                                             <label class="col-xs-4">
-                                                ${goodsInfo.retailPriceSe!}P<span class="unit-2"></span>
+                                                <span class="retailPriceSe">${goodsInfo.retailPriceSe!}</span>P<span class="unit-2"></span>
                                             </label>
                                             <div class="col-xs-12">
                                                 <label class="col-xs-2"></label>
@@ -154,6 +158,7 @@
                                                 <label class="col-xs-5">
                                                     <input style="width: 115px;display: inline-block;" type="number" id="retailPriceSe" name="retailPriceSe" value="${goodsInfo.retailPriceSe!}" class="form-control" placeholder="零售价格(辅)">
                                                     P<span class="unit-2"></span>
+                                                    <a class="btn btn-primary" id="confirm-ls-price">确定</a>
                                                 </label>
                                             </div>
                                         </div>
@@ -258,6 +263,17 @@
 </html>
 
 <script>
+    $("#confirm-pf-price,#confirm-ls-price").click(function(){
+        var id = $(this).attr("id");
+        if(id=="confirm-pf-price"){
+            $(".tradePrice").text($("#tradePrice").val());
+            $(".tradePriceSe").text($("#tradePriceSe").val());
+        }else if(id=="confirm-ls-price"){
+            $(".retailPrice").text($("#retailPrice").val());
+            $(".retailPriceSe").text($("#retailPriceSe").val());
+        }
+    });
+
     $("#mlr-confirm-pf,#mlr-confirm-ls").click(function(){
         var mlr = 0;
         var id = $(this).attr("id");
@@ -266,8 +282,8 @@
         }else if(id=="mlr-confirm-ls"){
             mlr = $("#mlr-ls").val();
         }
-        var price = ${goodsInfo.price!};
-        var priceSe = ${goodsInfo.priceSe!};
+        var price = $("#price").val();
+        var priceSe = $("#priceSe").val();
         var setPrice = Math.round(mlr*price);
         var setPriceSe = Math.round(mlr*priceSe);
         if(id=="mlr-confirm-pf"){
@@ -278,21 +294,15 @@
             $("#retailPriceSe").val(setPriceSe);
         }
     });
-    var unitCf = false;
-    $("#conversion").unbind("click").click(function(){
+
+    $("#unitPrVal,#unitPeVal").bind('input propertychange', function() {
         var price = $("#price").val();
         var priceSe = $("#priceSe").val();
-        var tradePrice = $("#tradePrice").val();
-        var tradePriceSe = $("#tradePriceSe").val();
-        var retailPrice = $("#retailPrice").val();
-        var retailPriceSe = $("#retailPriceSe").val();
 
         var unitPrVal = $("#unitPrVal").val();
         var unitPeVal = $("#unitPeVal").val();
 
         var cvPrice = 0;
-        var cvTradePrice = 0;
-        var cvRetailPrice = 0;
 
         if(price&&price>0){
             if(unitPrVal>=unitPeVal){
@@ -312,126 +322,163 @@
             }
         }
 
-        if(tradePrice&&tradePrice>0){
-            if(unitPrVal>=unitPeVal){
-                cvTradePrice = tradePrice*unitPrVal;
-                $("#tradePriceSe").val(Math.round(cvTradePrice));
-            }else{
-                cvTradePrice = tradePrice/unitPeVal;
-                $("#tradePriceSe").val(Math.round(cvTradePrice));
-            }
-        }else if(tradePriceSe&&tradePriceSe>0){
-            if(unitPrVal>=unitPeVal){
-                cvTradePrice = tradePriceSe/unitPrVal;
-                $("#tradePrice").val(Math.round(cvTradePrice));
-            }else{
-                cvTradePrice = tradePriceSe*unitPeVal;
-                $("#tradePrice").val(Math.round(cvTradePrice));
-            }
-        }
-
-        if(retailPrice&&retailPrice>0){
-            if(unitPrVal>=unitPeVal){
-                cvRetailPrice = retailPrice*unitPrVal;
-                $("#retailPriceSe").val(Math.round(cvRetailPrice));
-            }else{
-                cvRetailPrice = retailPrice/unitPeVal;
-                $("#retailPriceSe").val(Math.round(cvRetailPrice));
-            }
-        }else if(retailPriceSe&&retailPriceSe>0){
-            if(unitPrVal>=unitPeVal){
-                cvRetailPrice = retailPriceSe/unitPrVal;
-                $("#retailPrice").val(Math.round(cvRetailPrice));
-            }else{
-                cvRetailPrice = retailPriceSe*unitPeVal;
-                $("#retailPrice").val(Math.round(cvRetailPrice));
-            }
-        }
     });
-    $("#confirm-unit").unbind("click").click(function(){
-        layer.msg('单位已确定');
-        unitCf = true;
-    });
-    $("#price,#priceSe,#tradePrice,#tradePriceSe,#retailPrice,#retailPriceSe").bind('input propertychange', function() {
-        if(!unitCf){
-            return;
-        }
-        var thisDom = $(this);
-        var name = thisDom.attr("name");
-        var price = $("#price").val();
-        var priceSe = $("#priceSe").val();
-        var tradePrice = $("#tradePrice").val();
-        var tradePriceSe = $("#tradePriceSe").val();
-        var retailPrice = $("#retailPrice").val();
-        var retailPriceSe = $("#retailPriceSe").val();
 
-        var unitPrVal = $("#unitPrVal").val();
-        var unitPeVal = $("#unitPeVal").val();
+    // var unitCf = false;
+    // $("#conversion").unbind("click").click(function(){
+    //     var price = $("#price").val();
+    //     var priceSe = $("#priceSe").val();
+    //     var tradePrice = $("#tradePrice").val();
+    //     var tradePriceSe = $("#tradePriceSe").val();
+    //     var retailPrice = $("#retailPrice").val();
+    //     var retailPriceSe = $("#retailPriceSe").val();
+    //
+    //     var unitPrVal = $("#unitPrVal").val();
+    //     var unitPeVal = $("#unitPeVal").val();
+    //
+    //     var cvPrice = 0;
+    //     var cvTradePrice = 0;
+    //     var cvRetailPrice = 0;
+    //
+    //     if(price&&price>0){
+    //         if(unitPrVal>=unitPeVal){
+    //             cvPrice = price*unitPrVal;
+    //             $("#priceSe").val(Math.round(cvPrice));
+    //         }else{
+    //             cvPrice = price/unitPeVal;
+    //             $("#priceSe").val(Math.round(cvPrice));
+    //         }
+    //     }else if(priceSe&&priceSe>0){
+    //         if(unitPrVal>=unitPeVal){
+    //             cvPrice = priceSe/unitPrVal;
+    //             $("#price").val(Math.round(cvPrice));
+    //         }else{
+    //             cvPrice = priceSe*unitPeVal;
+    //             $("#price").val(Math.round(cvPrice));
+    //         }
+    //     }
+    //
+    //     if(tradePrice&&tradePrice>0){
+    //         if(unitPrVal>=unitPeVal){
+    //             cvTradePrice = tradePrice*unitPrVal;
+    //             $("#tradePriceSe").val(Math.round(cvTradePrice));
+    //         }else{
+    //             cvTradePrice = tradePrice/unitPeVal;
+    //             $("#tradePriceSe").val(Math.round(cvTradePrice));
+    //         }
+    //     }else if(tradePriceSe&&tradePriceSe>0){
+    //         if(unitPrVal>=unitPeVal){
+    //             cvTradePrice = tradePriceSe/unitPrVal;
+    //             $("#tradePrice").val(Math.round(cvTradePrice));
+    //         }else{
+    //             cvTradePrice = tradePriceSe*unitPeVal;
+    //             $("#tradePrice").val(Math.round(cvTradePrice));
+    //         }
+    //     }
+    //
+    //     if(retailPrice&&retailPrice>0){
+    //         if(unitPrVal>=unitPeVal){
+    //             cvRetailPrice = retailPrice*unitPrVal;
+    //             $("#retailPriceSe").val(Math.round(cvRetailPrice));
+    //         }else{
+    //             cvRetailPrice = retailPrice/unitPeVal;
+    //             $("#retailPriceSe").val(Math.round(cvRetailPrice));
+    //         }
+    //     }else if(retailPriceSe&&retailPriceSe>0){
+    //         if(unitPrVal>=unitPeVal){
+    //             cvRetailPrice = retailPriceSe/unitPrVal;
+    //             $("#retailPrice").val(Math.round(cvRetailPrice));
+    //         }else{
+    //             cvRetailPrice = retailPriceSe*unitPeVal;
+    //             $("#retailPrice").val(Math.round(cvRetailPrice));
+    //         }
+    //     }
+    // });
+    // $("#confirm-unit").unbind("click").click(function(){
+    //     layer.msg('单位已确定');
+    //     unitCf = true;
+    // });
+    // $("#price,#priceSe,#tradePrice,#tradePriceSe,#retailPrice,#retailPriceSe").bind('input propertychange', function() {
+    //     if(!unitCf){
+    //         return;
+    //     }
+    //     var thisDom = $(this);
+    //     var name = thisDom.attr("name");
+    //     var price = $("#price").val();
+    //     var priceSe = $("#priceSe").val();
+    //     var tradePrice = $("#tradePrice").val();
+    //     var tradePriceSe = $("#tradePriceSe").val();
+    //     var retailPrice = $("#retailPrice").val();
+    //     var retailPriceSe = $("#retailPriceSe").val();
+    //
+    //     var unitPrVal = $("#unitPrVal").val();
+    //     var unitPeVal = $("#unitPeVal").val();
+    //
+    //     var cvPrice = 0;
+    //     var cvTradePrice = 0;
+    //     var cvRetailPrice = 0;
+    //
+    //     if(name=="price"){
+    //         if(unitPrVal>=unitPeVal){
+    //             cvPrice = price*unitPrVal;
+    //             $("#priceSe").val(Math.round(cvPrice));
+    //         }else{
+    //             cvPrice = price/unitPeVal;
+    //             $("#priceSe").val(Math.round(cvPrice));
+    //         }
+    //     }
+    //
+    //     if(name=="priceSe"){
+    //         if(unitPrVal>=unitPeVal){
+    //             cvPrice = priceSe/unitPrVal;
+    //             $("#price").val(Math.round(cvPrice));
+    //         }else{
+    //             cvPrice = priceSe*unitPeVal;
+    //             $("#price").val(Math.round(cvPrice));
+    //         }
+    //     }
+    //
+    //     if(name=="tradePrice"){
+    //         if(unitPrVal>=unitPeVal){
+    //             cvTradePrice = tradePrice*unitPrVal;
+    //             $("#tradePriceSe").val(Math.round(cvTradePrice));
+    //         }else{
+    //             cvTradePrice = tradePrice/unitPeVal;
+    //             $("#tradePriceSe").val(Math.round(cvTradePrice));
+    //         }
+    //     }
+    //
+    //     if(name=="tradePriceSe"){
+    //         if(unitPrVal>=unitPeVal){
+    //             cvTradePrice = tradePriceSe/unitPrVal;
+    //             $("#tradePrice").val(Math.round(cvTradePrice));
+    //         }else{
+    //             cvTradePrice = tradePriceSe*unitPeVal;
+    //             $("#tradePrice").val(Math.round(cvTradePrice));
+    //         }
+    //     }
+    //
+    //     if(name=="retailPrice"){
+    //         if(unitPrVal>=unitPeVal){
+    //             cvRetailPrice = retailPrice*unitPrVal;
+    //             $("#retailPriceSe").val(Math.round(cvRetailPrice));
+    //         }else{
+    //             cvRetailPrice = retailPrice/unitPeVal;
+    //             $("#retailPriceSe").val(Math.round(cvRetailPrice));
+    //         }
+    //     }
+    //
+    //     if(name=="retailPriceSe"){
+    //         if(unitPrVal>=unitPeVal){
+    //             cvRetailPrice = retailPriceSe/unitPrVal;
+    //             $("#retailPrice").val(Math.round(cvRetailPrice));
+    //         }else{
+    //             cvRetailPrice = retailPriceSe*unitPeVal;
+    //             $("#retailPrice").val(Math.round(cvRetailPrice));
+    //         }
+    //     }
+    // });
 
-        var cvPrice = 0;
-        var cvTradePrice = 0;
-        var cvRetailPrice = 0;
-
-        if(name=="price"){
-            if(unitPrVal>=unitPeVal){
-                cvPrice = price*unitPrVal;
-                $("#priceSe").val(Math.round(cvPrice));
-            }else{
-                cvPrice = price/unitPeVal;
-                $("#priceSe").val(Math.round(cvPrice));
-            }
-        }
-
-        if(name=="priceSe"){
-            if(unitPrVal>=unitPeVal){
-                cvPrice = priceSe/unitPrVal;
-                $("#price").val(Math.round(cvPrice));
-            }else{
-                cvPrice = priceSe*unitPeVal;
-                $("#price").val(Math.round(cvPrice));
-            }
-        }
-
-        if(name=="tradePrice"){
-            if(unitPrVal>=unitPeVal){
-                cvTradePrice = tradePrice*unitPrVal;
-                $("#tradePriceSe").val(Math.round(cvTradePrice));
-            }else{
-                cvTradePrice = tradePrice/unitPeVal;
-                $("#tradePriceSe").val(Math.round(cvTradePrice));
-            }
-        }
-
-        if(name=="tradePriceSe"){
-            if(unitPrVal>=unitPeVal){
-                cvTradePrice = tradePriceSe/unitPrVal;
-                $("#tradePrice").val(Math.round(cvTradePrice));
-            }else{
-                cvTradePrice = tradePriceSe*unitPeVal;
-                $("#tradePrice").val(Math.round(cvTradePrice));
-            }
-        }
-
-        if(name=="retailPrice"){
-            if(unitPrVal>=unitPeVal){
-                cvRetailPrice = retailPrice*unitPrVal;
-                $("#retailPriceSe").val(Math.round(cvRetailPrice));
-            }else{
-                cvRetailPrice = retailPrice/unitPeVal;
-                $("#retailPriceSe").val(Math.round(cvRetailPrice));
-            }
-        }
-
-        if(name=="retailPriceSe"){
-            if(unitPrVal>=unitPeVal){
-                cvRetailPrice = retailPriceSe/unitPrVal;
-                $("#retailPrice").val(Math.round(cvRetailPrice));
-            }else{
-                cvRetailPrice = retailPriceSe*unitPeVal;
-                $("#retailPrice").val(Math.round(cvRetailPrice));
-            }
-        }
-    });
     function showUnitText(){
         // var unitPrVal = $("input[name='unitPrVal']").val();
         var uiidPr = $("#uiidPr option:selected").text();

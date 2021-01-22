@@ -227,7 +227,7 @@
                                             </td>
                                             <td>${(myn.createTime!?string("yyyy-MM-dd HH:mm:ss"))?replace(" ","<br>")}</td>
                                             <td>
-                                                <div onclick="location.href='/admin/goodsInfo/update?id=${myn.id}'" style="color:#2196f3;float: left;margin-left: 10px;">
+                                                <div onclick="location.href='/admin/goodsInfo/update?id=${myn.id}&pageNum=${goodsInfo.pageNum}'" style="color:#2196f3;float: left;margin-left: 10px;">
                                                     <i class="icon-pencil3" id="update${myn.id!}" onmousemove="layerTips('修改','update${myn.id!}')"></i>
                                                 </div>
                                                 <div onclick="deleteLayer('${basePath}/admin/goodsInfo/delete?id=${myn.id!}')" style="color:red;float: left;margin-left: 10px;">
